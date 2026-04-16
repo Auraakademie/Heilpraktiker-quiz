@@ -271,6 +271,38 @@ window.addEventListener('DOMContentLoaded', () => {
   if (savedCat)  document.getElementById('input-category').value = savedCat;
 });
 
+// ── HTML escapen ──────────────────────────────────────────────────────────────
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Fragetext formatieren (nummerierte Aussagen lesbar machen) ────────────────
+function formatQuestionText(text) {
+  if (!text) return '';
+  const escaped = escapeHtml(text.trim());
+
+  // Nummerierte Aussagen erkennen: "1)" oder "1." am Satzanfang/nach Leerzeichen
+  // Aufteilen: alles vor der ersten Nummer = Frageintro
+  const parts = escaped.split(/(?=\s+\d+[\)\.]\s)/);
+
+  if (parts.length <= 1) {
+    // Keine nummerierten Aussagen — einfach ausgeben
+    return `<span>${escaped}</span>`;
+  }
+
+  // Erster Teil = Fragestellung
+  let html = `<span class="block font-medium mb-3">${parts[0].trim()}</span>`;
+
+  // Nummerierte Aussagen jeweils auf eigener Zeile
+  for (let i = 1; i < parts.length; i++) {
+    const item = parts[i].trim();
+    if (!item) continue;
+    html += `<span class="block mt-2 pl-3 border-l border-white/10 text-white/90">${item}</span>`;
+  }
+
+  return html;
+}
+
 // ── Kommentar bereinigen (keine Quellen) ──────────────────────────────────────
 function cleanKommentar(text) {
   if (!text) return '';
@@ -372,7 +404,7 @@ function renderQuestion() {
   document.getElementById('q-total').textContent = total;
   document.getElementById('q-progress').style.width = ((currentIndex / total) * 100) + '%';
   document.getElementById('q-category').textContent = q.kategorie || 'Allgemein';
-  document.getElementById('q-text').textContent = q.frage_text;
+  document.getElementById('q-text').innerHTML = formatQuestionText(q.frage_text);
 
   // Wiederholungs-Counter
   if (repeatCount > 0) {
