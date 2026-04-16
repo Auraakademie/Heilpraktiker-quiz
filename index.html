@@ -228,7 +228,7 @@
 
 <script>
 const SUPABASE_URL = 'https://ozbzykrlazjsycscbmcf.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96Ynp5a3JsYXpqc3ljc2NibWNmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDkwMTc0OSwiZXhwIjoyMDkwNDc3NzQ5fQ.d6elPA1dmfEu3EYoHC7TzBxQpwtj3KLnZIQhspEd9d8';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96Ynp5a3JsYXpqc3ljc2NibWNmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDkwMTc0OSwiZXhwIjoyMDkwNDc3NzQ5fQ.d6elPA1dmfEu3EYoHK7TzBxQpwtj3KLnZIQhspEd9d8';
 const CLAUDE_PROXY = 'https://auraakademie.app.n8n.cloud/webhook/aura-claude-proxy';
 const QUESTIONS_PER_SESSION = 5;
 
@@ -250,6 +250,10 @@ async function fetchQuestions(category = '') {
     }
   });
   const data = await res.json();
+  if (!Array.isArray(data)) {
+    console.error('Supabase Fehler:', data);
+    throw new Error('Fragen konnten nicht geladen werden: ' + (data?.message || data?.error || JSON.stringify(data)));
+  }
   // Shuffle and pick N
   const shuffled = data.sort(() => Math.random() - 0.5);
   return shuffled.slice(0, QUESTIONS_PER_SESSION);
