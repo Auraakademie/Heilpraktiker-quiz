@@ -301,8 +301,10 @@ function renderQuestion() {
   const container = document.getElementById('options-container');
   container.innerHTML = '';
   opts.forEach(letter => {
-    const text = q['option_' + letter.toLowerCase()];
+    let text = q['option_' + letter.toLowerCase()];
     if (!text) return;
+    // Cleanup: Erklärungstext abschneiden der fälschlicherweise in Option-Felder geraten ist
+    text = text.replace(/\.\s*zu\s+\d+::.*/s, '.').replace(/:\s+[A-Z][^:]{10,}.*$/s, '').trim();
     const btn = document.createElement('button');
     btn.className = 'option-btn w-full text-left rounded-xl px-5 py-3.5 text-sm';
     btn.innerHTML = `<span class="font-bold text-purple-400 mr-3">${letter}.</span>${text}`;
