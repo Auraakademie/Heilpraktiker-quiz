@@ -261,6 +261,7 @@ let userName = '';
 let sessionCategory = '';
 let multiSelected = [];   // bei Mehrfach-Antworten: gewählte Buchstaben
 let isMulti = false;
+let lastSelectedLetter = ''; // bei Einfach-Antworten: geklickter Buchstabe
 
 // ── localStorage: Name merken ─────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
@@ -446,6 +447,7 @@ function confirmMultiAnswer() {
 function selectAnswer(letter, clickedBtn) {
   const q = questionQueue[currentIndex];
   const richtig = (q.richtige_antwort || '').trim().toUpperCase();
+  lastSelectedLetter = letter;
   const isCorrect = letter === richtig;
   evaluateAnswer(isCorrect, richtig);
 }
@@ -461,17 +463,14 @@ function evaluateAnswer(isCorrect, richtigDisplay) {
   document.querySelectorAll('.option-btn').forEach(b => {
     b.disabled = true;
     const l = b.dataset.letter;
-    if (richtigArr.includes(l)) b.classList.add('correct');
-    else if (isMulti && multiSelected.includes(l) && !richtigArr.includes(l)) b.classList.add('wrong');
-    else if (!isMulti && b === document.querySelector(`.option-btn[data-letter="${richtigArr[0]}"]`)) b.classList.add('correct');
+    if (richtigArr.includes(l)) {
+      b.classList.add('correct');
+    } else if (isMulti && multiSelected.includes(l)) {
+      b.classList.add('wrong');
+    } else if (!isMulti && l === lastSelectedLetter && !isCorrect) {
+      b.classList.add('wrong');
+    }
   });
-  if (!isMulti) {
-    document.querySelectorAll('.option-btn').forEach(b => {
-      if (!richtigArr.includes(b.dataset.letter)) {
-        // mark clicked wrong button
-      }
-    });
-  }
 
   // Antwort speichern
   answers.push({ q, isCorrect, richtigDisplay });
