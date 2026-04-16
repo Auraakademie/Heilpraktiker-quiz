@@ -25,10 +25,11 @@
   .fade-in { animation: fadeIn 0.4s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
   .score-ring { stroke-dasharray: 283; stroke-dashoffset: 283; transition: stroke-dashoffset 1.5s ease; stroke-linecap: round; }
-  input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #e8e8f0; outline: none; transition: border-color 0.2s; }
-  input:focus { border-color: #7c3aed; }
+  input, select { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #e8e8f0; outline: none; transition: border-color 0.2s; }
+  input:focus, select:focus { border-color: #7c3aed; }
   .cat-badge { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3); }
   .hidden { display: none !important; }
+  .repeat-badge { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); }
 </style>
 </head>
 <body class="min-h-screen">
@@ -42,8 +43,8 @@
       <span class="text-xs text-white/30 ml-2">by Aura Akademie</span>
     </div>
   </div>
-  <div id="header-streak" class="hidden">
-    <span class="text-orange-400 text-sm font-semibold">🔥 <span id="streak-count">0</span> Tage</span>
+  <div id="header-info" class="hidden">
+    <span class="text-white/40 text-sm" id="header-name"></span>
   </div>
 </div>
 
@@ -54,25 +55,25 @@
   <div id="screen-start" class="fade-in">
     <div class="text-center mb-10">
       <div class="text-6xl mb-4">🩺</div>
-      <h1 class="text-3xl font-bold text-white mb-3">Jeden Morgen <span class="gradient-text">3 Fragen.</span><br>Jeden Abend schlauer.</h1>
-      <p class="text-white/50 text-lg max-w-md mx-auto">Der KI-Coach der dich täglich auf die HP-Prüfung vorbereitet — mit echten Prüfungsfragen und sofortiger Erklärung.</p>
+      <h1 class="text-3xl font-bold text-white mb-3">Kreuze dich durch<br><span class="gradient-text">die HP-Prüfung.</span></h1>
+      <p class="text-white/50 text-lg max-w-md mx-auto">Falsche Fragen kommen wieder — bis du sie wirklich kannst. Mit echten Prüfungsfragen.</p>
     </div>
 
     <div class="grid grid-cols-3 gap-4 mb-8">
       <div class="card rounded-2xl p-4 text-center">
         <div class="text-2xl mb-1">📚</div>
-        <div class="text-white font-bold text-lg">1.000+</div>
+        <div class="text-white font-bold text-lg">3.000+</div>
         <div class="text-white/40 text-xs">echte HP-Fragen</div>
       </div>
       <div class="card rounded-2xl p-4 text-center">
-        <div class="text-2xl mb-1">🤖</div>
-        <div class="text-white font-bold text-lg">KI-Erklärung</div>
-        <div class="text-white/40 text-xs">sofort, persönlich</div>
+        <div class="text-2xl mb-1">🔁</div>
+        <div class="text-white font-bold text-lg">Wiederholen</div>
+        <div class="text-white/40 text-xs">bis du es kannst</div>
       </div>
       <div class="card rounded-2xl p-4 text-center">
-        <div class="text-2xl mb-1">📈</div>
-        <div class="text-white font-bold text-lg">Fortschritt</div>
-        <div class="text-white/40 text-xs">pro Fachgebiet</div>
+        <div class="text-2xl mb-1">💡</div>
+        <div class="text-white font-bold text-lg">Erklärung</div>
+        <div class="text-white/40 text-xs">bei jeder Antwort</div>
       </div>
     </div>
 
@@ -84,9 +85,10 @@
           <input id="input-name" type="text" placeholder="z.B. Maria" class="w-full rounded-xl px-4 py-3 text-sm">
         </div>
         <div>
-          <label class="text-sm text-white/50 mb-1.5 block">Welches Fachgebiet heute? (optional)</label>
-          <select id="input-category" class="w-full rounded-xl px-4 py-3 text-sm" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #e8e8f0;">
+          <label class="text-sm text-white/50 mb-1.5 block">Fachgebiet (optional)</label>
+          <select id="input-category" class="w-full rounded-xl px-4 py-3 text-sm">
             <option value="">🎲 Zufällig (empfohlen)</option>
+            <option value="Schriftliche Prüfung">📝 Schriftliche Prüfung</option>
             <option value="Allgemein">Allgemein</option>
             <option value="Herz-Kreislauf">Herz-Kreislauf</option>
             <option value="Lungenerkrankungen">Lungenerkrankungen</option>
@@ -107,12 +109,8 @@
         </div>
       </div>
       <button onclick="startSession()" class="btn-primary w-full mt-4 py-3.5 rounded-xl font-semibold text-white text-sm">
-        🚀 Tagesquiz starten
+        🚀 Jetzt kreuzen
       </button>
-    </div>
-
-    <div id="stats-today" class="hidden card rounded-2xl p-4 text-center">
-      <div class="text-white/40 text-sm">Du hast heute schon <span id="today-count" class="text-white font-bold"></span> Fragen beantwortet</div>
     </div>
   </div>
 
@@ -126,9 +124,14 @@
   <div id="screen-quiz" class="hidden">
 
     <!-- Progress -->
-    <div class="flex items-center justify-between mb-4">
-      <div class="text-white/40 text-sm">Frage <span id="q-current">1</span> von <span id="q-total">5</span></div>
-      <div class="cat-badge text-xs px-3 py-1 rounded-full text-purple-300" id="q-category">Allgemein</div>
+    <div class="flex items-center justify-between mb-3">
+      <div class="text-white/40 text-sm">Frage <span id="q-current">1</span> von <span id="q-total">20</span></div>
+      <div class="flex items-center gap-2">
+        <div id="repeat-counter" class="hidden repeat-badge text-xs px-3 py-1 rounded-full text-red-300">
+          🔁 <span id="repeat-count">0</span> zu wiederholen
+        </div>
+        <div class="cat-badge text-xs px-3 py-1 rounded-full text-purple-300" id="q-category">Allgemein</div>
+      </div>
     </div>
     <div class="w-full h-1.5 rounded-full mb-6" style="background: rgba(255,255,255,0.06)">
       <div class="progress-bar h-1.5 rounded-full" id="q-progress" style="width: 0%"></div>
@@ -136,11 +139,17 @@
 
     <!-- Question -->
     <div class="card rounded-2xl p-6 mb-5 fade-in" id="question-card">
+      <div id="multi-hint" class="hidden text-xs text-purple-300 mb-3 font-medium">☑ Mehrere Antworten möglich — alle richtigen auswählen, dann bestätigen</div>
       <p class="text-white font-medium text-base leading-relaxed" id="q-text"></p>
     </div>
 
     <!-- Options -->
-    <div class="space-y-3 mb-6" id="options-container"></div>
+    <div class="space-y-3 mb-4" id="options-container"></div>
+
+    <!-- Confirm button (nur bei Mehrfach-Antworten) -->
+    <button id="btn-confirm" onclick="confirmMultiAnswer()" class="hidden btn-primary w-full py-3 rounded-xl font-semibold text-white text-sm mb-4">
+      ✓ Antwort bestätigen
+    </button>
 
     <!-- Explanation (shown after answer) -->
     <div id="explanation-box" class="hidden card rounded-2xl p-5 mb-5 fade-in border-l-4" style="border-left-color: #7c3aed;">
@@ -155,13 +164,17 @@
     <button id="btn-next" onclick="nextQuestion()" class="hidden btn-primary w-full py-3.5 rounded-xl font-semibold text-white text-sm">
       Nächste Frage →
     </button>
+
+    <!-- Quit button -->
+    <button onclick="quitSession()" class="w-full py-2 mt-2 rounded-xl text-white/20 text-xs hover:text-white/40 transition-colors">
+      Session beenden
+    </button>
   </div>
 
   <!-- RESULT SCREEN -->
   <div id="screen-result" class="hidden fade-in">
 
     <div class="text-center mb-8">
-      <!-- Score Ring -->
       <div class="relative inline-block mb-4">
         <svg width="120" height="120" viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
@@ -186,7 +199,7 @@
       <p class="text-white/50 text-sm" id="result-subtitle"></p>
     </div>
 
-    <!-- Category breakdown -->
+    <!-- Stats -->
     <div class="card rounded-2xl p-5 mb-5">
       <h3 class="font-semibold text-white text-sm mb-4">📊 Deine Ergebnisse</h3>
       <div id="result-breakdown" class="space-y-3"></div>
@@ -196,13 +209,13 @@
     <div id="ai-feedback-box" class="card rounded-2xl p-5 mb-5 hidden">
       <div class="flex items-center gap-2 mb-3">
         <div class="spinner" style="width:20px;height:20px;border-width:2px"></div>
-        <span class="text-white/60 text-sm">KI analysiert deine Ergebnisse...</span>
+        <span class="text-white/60 text-sm">Erklärung wird erstellt...</span>
       </div>
     </div>
     <div id="ai-feedback-result" class="card rounded-2xl p-5 mb-5 hidden border-l-4" style="border-left-color: #7c3aed;">
       <div class="flex items-center gap-2 mb-3">
-        <span class="text-purple-400 text-lg">🤖</span>
-        <span class="font-semibold text-white text-sm">Dein persönliches KI-Feedback</span>
+        <span class="text-purple-400 text-lg">💡</span>
+        <span class="font-semibold text-white text-sm">Was du wissen musst</span>
       </div>
       <p class="text-white/70 text-sm leading-relaxed" id="ai-feedback-text"></p>
     </div>
@@ -211,8 +224,8 @@
     <div class="card rounded-2xl p-5 mb-4" style="border: 1px solid rgba(124,58,237,0.3); background: rgba(124,58,237,0.08);">
       <div class="text-center">
         <div class="text-2xl mb-2">🎓</div>
-        <h3 class="font-bold text-white mb-1">Täglich trainieren = Prüfung bestehen</h3>
-        <p class="text-white/50 text-xs mb-4">Tritt der Aura Heilpraktiker Akademie bei — mit strukturiertem Lernprogramm und Live-Calls.</p>
+        <h3 class="font-bold text-white mb-1">Strukturiert zur Prüfung</h3>
+        <p class="text-white/50 text-xs mb-4">Mit dem HPA Lernprogramm — Live-Calls, Skripte und persönliche Begleitung.</p>
         <a href="https://www.auraakademie.de" target="_blank" class="btn-primary inline-block px-6 py-3 rounded-xl text-white font-semibold text-sm">
           Zum HPA Lernprogramm →
         </a>
@@ -230,51 +243,90 @@
 const SUPABASE_URL = 'https://ozbzykrlazjsycscbmcf.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96Ynp5a3JsYXpqc3ljc2NibWNmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDkwMTc0OSwiZXhwIjoyMDkwNDc3NzQ5fQ.d6elPA1dmfEu3EYoHK7TzBxQpwtj3KLnZIQhspEd9d8';
 const CLAUDE_PROXY = 'https://auraakademie.app.n8n.cloud/webhook/aura-claude-proxy';
-const QUESTIONS_PER_SESSION = 5;
+const POOL_SIZE = 30;
 
-let questions = [];
+// ── State ─────────────────────────────────────────────────────────────────────
+let questionQueue = [];   // aktuelle Warteschlange
 let currentIndex = 0;
-let answers = [];
+let answers = [];         // alle Antworten dieser Session
+let wrongQuestions = [];  // falsch beantwortete (zum Wiederholen)
 let userName = '';
 let sessionCategory = '';
+let multiSelected = [];   // bei Mehrfach-Antworten: gewählte Buchstaben
+let isMulti = false;
 
-// ── Supabase fetch ──────────────────────────────────────────────────────────
+// ── localStorage: Name merken ─────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const savedName = localStorage.getItem('hp_coach_name');
+  const savedCat  = localStorage.getItem('hp_coach_category');
+  if (savedName) document.getElementById('input-name').value = savedName;
+  if (savedCat)  document.getElementById('input-category').value = savedCat;
+});
+
+// ── Kommentar bereinigen (keine Quellen) ──────────────────────────────────────
+function cleanKommentar(text) {
+  if (!text) return '';
+  return text
+    .replace(/Forum\.Isolde[^.]*\./gi, '')
+    .replace(/Seite\s+\d+\s+von\s+\d+[^.]*\./gi, '')
+    .replace(/Quelle:[^.]*\./gi, '')
+    .replace(/www\.[^\s]+/gi, '')
+    .replace(/http[^\s]+/gi, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+// ── Option E Cleanup ──────────────────────────────────────────────────────────
+function cleanOptionText(text) {
+  if (!text) return text;
+  return text
+    .replace(/\.\s*zu\s+\d+::.*/s, '.')
+    .replace(/:\s+[A-ZÄÖÜ][^:]{40,}$/s, '')
+    .trim();
+}
+
+// ── Supabase fetch ─────────────────────────────────────────────────────────────
 async function fetchQuestions(category = '') {
   let url = `${SUPABASE_URL}/rest/v1/hp_pruefungsfragen?select=id,frage_text,option_a,option_b,option_c,option_d,option_e,richtige_antwort,kommentar,kategorie&limit=200`;
   if (category) url += `&kategorie=eq.${encodeURIComponent(category)}`;
 
   const res = await fetch(url, {
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY
-    }
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
   });
   const data = await res.json();
   if (!Array.isArray(data)) {
-    console.error('Supabase Fehler:', data);
-    throw new Error('Fragen konnten nicht geladen werden: ' + (data?.message || data?.error || JSON.stringify(data)));
+    throw new Error('Fragen konnten nicht geladen werden.');
   }
-  // Shuffle and pick N
   const shuffled = data.sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, QUESTIONS_PER_SESSION);
+  return shuffled.slice(0, POOL_SIZE);
 }
 
-// ── Start session ───────────────────────────────────────────────────────────
+// ── Start session ──────────────────────────────────────────────────────────────
 async function startSession() {
   userName = document.getElementById('input-name').value.trim() || 'du';
   sessionCategory = document.getElementById('input-category').value;
 
+  // Name + Kategorie merken
+  localStorage.setItem('hp_coach_name', userName);
+  localStorage.setItem('hp_coach_category', sessionCategory);
+
+  // Header Name zeigen
+  document.getElementById('header-name').textContent = userName;
+  document.getElementById('header-info').classList.remove('hidden');
+
   show('screen-loading');
   hide('screen-start');
-  document.getElementById('loading-text').textContent = 'Echte HP-Prüfungsfragen werden geladen...';
+  document.getElementById('loading-text').textContent = 'Fragen werden geladen...';
 
   try {
-    questions = await fetchQuestions(sessionCategory);
-    if (!questions.length) {
+    const pool = await fetchQuestions(sessionCategory);
+    if (!pool.length) {
       alert('Keine Fragen gefunden. Bitte andere Kategorie wählen.');
       show('screen-start'); hide('screen-loading'); return;
     }
+    questionQueue = [...pool];
     answers = [];
+    wrongQuestions = [];
     currentIndex = 0;
     hide('screen-loading');
     show('screen-quiz');
@@ -285,10 +337,11 @@ async function startSession() {
   }
 }
 
-// ── Render question ─────────────────────────────────────────────────────────
+// ── Render question ────────────────────────────────────────────────────────────
 function renderQuestion() {
-  const q = questions[currentIndex];
-  const total = questions.length;
+  const q = questionQueue[currentIndex];
+  const total = questionQueue.length;
+  const repeatCount = wrongQuestions.length;
 
   document.getElementById('q-current').textContent = currentIndex + 1;
   document.getElementById('q-total').textContent = total;
@@ -296,49 +349,116 @@ function renderQuestion() {
   document.getElementById('q-category').textContent = q.kategorie || 'Allgemein';
   document.getElementById('q-text').textContent = q.frage_text;
 
-  // Build options
+  // Wiederholungs-Counter
+  if (repeatCount > 0) {
+    document.getElementById('repeat-count').textContent = repeatCount;
+    document.getElementById('repeat-counter').classList.remove('hidden');
+  } else {
+    document.getElementById('repeat-counter').classList.add('hidden');
+  }
+
+  // Mehrfach-Antworten prüfen
+  const richtig = (q.richtige_antwort || '').trim().toUpperCase();
+  const richtigArr = richtig.split(',').map(x => x.trim()).filter(Boolean);
+  isMulti = richtigArr.length > 1;
+  multiSelected = [];
+
+  document.getElementById('multi-hint').classList.toggle('hidden', !isMulti);
+  document.getElementById('btn-confirm').classList.toggle('hidden', !isMulti);
+
+  // Options rendern
   const opts = ['A','B','C','D','E'].filter(l => q['option_' + l.toLowerCase()]);
   const container = document.getElementById('options-container');
   container.innerHTML = '';
+
   opts.forEach(letter => {
     let text = q['option_' + letter.toLowerCase()];
     if (!text) return;
-    // Cleanup: Erklärungstext abschneiden der fälschlicherweise in Option-Felder geraten ist
-    text = text.replace(/\.\s*zu\s+\d+::.*/s, '.').replace(/:\s+[A-Z][^:]{10,}.*$/s, '').trim();
+    text = cleanOptionText(text);
     const btn = document.createElement('button');
     btn.className = 'option-btn w-full text-left rounded-xl px-5 py-3.5 text-sm';
+    btn.dataset.letter = letter;
     btn.innerHTML = `<span class="font-bold text-purple-400 mr-3">${letter}.</span>${text}`;
-    btn.onclick = () => selectAnswer(letter, btn);
+    if (isMulti) {
+      btn.onclick = () => toggleMultiAnswer(letter, btn);
+    } else {
+      btn.onclick = () => selectAnswer(letter, btn);
+    }
     container.appendChild(btn);
   });
 
   hide('explanation-box');
   hide('btn-next');
 
-  // Animate in
   document.getElementById('question-card').classList.remove('fade-in');
   void document.getElementById('question-card').offsetWidth;
   document.getElementById('question-card').classList.add('fade-in');
 }
 
-// ── Select answer ───────────────────────────────────────────────────────────
-function selectAnswer(letter, clickedBtn) {
-  const q = questions[currentIndex];
-  const correct = q.richtige_antwort?.trim().toUpperCase();
-  const isCorrect = letter === correct;
+// ── Mehrfach-Antworten: Toggle ─────────────────────────────────────────────────
+function toggleMultiAnswer(letter, btn) {
+  const idx = multiSelected.indexOf(letter);
+  if (idx === -1) {
+    multiSelected.push(letter);
+    btn.classList.add('selected');
+  } else {
+    multiSelected.splice(idx, 1);
+    btn.classList.remove('selected');
+  }
+  document.getElementById('btn-confirm').disabled = multiSelected.length === 0;
+}
 
-  // Disable all options
+// ── Mehrfach-Antworten: Bestätigen ─────────────────────────────────────────────
+function confirmMultiAnswer() {
+  const q = questionQueue[currentIndex];
+  const richtigArr = (q.richtige_antwort || '').trim().toUpperCase()
+    .split(',').map(x => x.trim()).filter(Boolean).sort();
+  const selectedArr = [...multiSelected].sort();
+  const isCorrect = JSON.stringify(selectedArr) === JSON.stringify(richtigArr);
+  evaluateAnswer(isCorrect, richtigArr.join(', '));
+}
+
+// ── Einzel-Antwort auswählen ───────────────────────────────────────────────────
+function selectAnswer(letter, clickedBtn) {
+  const q = questionQueue[currentIndex];
+  const richtig = (q.richtige_antwort || '').trim().toUpperCase();
+  const isCorrect = letter === richtig;
+  evaluateAnswer(isCorrect, richtig);
+}
+
+// ── Antwort auswerten ──────────────────────────────────────────────────────────
+function evaluateAnswer(isCorrect, richtigDisplay) {
+  const q = questionQueue[currentIndex];
+  const richtigArr = (q.richtige_antwort || '').trim().toUpperCase()
+    .split(',').map(x => x.trim()).filter(Boolean);
+
+  // Alle Buttons disablen + richtige/falsche markieren
+  document.getElementById('btn-confirm').classList.add('hidden');
   document.querySelectorAll('.option-btn').forEach(b => {
     b.disabled = true;
-    const btnLetter = b.querySelector('span').textContent.replace('.','').trim();
-    if (btnLetter === correct) b.classList.add('correct');
-    else if (b === clickedBtn && !isCorrect) b.classList.add('wrong');
+    const l = b.dataset.letter;
+    if (richtigArr.includes(l)) b.classList.add('correct');
+    else if (isMulti && multiSelected.includes(l) && !richtigArr.includes(l)) b.classList.add('wrong');
+    else if (!isMulti && b === document.querySelector(`.option-btn[data-letter="${richtigArr[0]}"]`)) b.classList.add('correct');
   });
+  if (!isMulti) {
+    document.querySelectorAll('.option-btn').forEach(b => {
+      if (!richtigArr.includes(b.dataset.letter)) {
+        // mark clicked wrong button
+      }
+    });
+  }
 
-  // Store answer
-  answers.push({ q, letter, isCorrect });
+  // Antwort speichern
+  answers.push({ q, isCorrect, richtigDisplay });
 
-  // Show explanation
+  // Falsche Frage → später wiederholen
+  if (!isCorrect) {
+    wrongQuestions.push(q);
+  }
+
+  // Erklärung zeigen
+  const kommentar = cleanKommentar(q.kommentar);
   const box = document.getElementById('explanation-box');
   box.classList.remove('hidden', 'fade-in');
   void box.offsetWidth;
@@ -347,25 +467,51 @@ function selectAnswer(letter, clickedBtn) {
 
   document.getElementById('result-icon').textContent = isCorrect ? '✅' : '❌';
   document.getElementById('result-label').textContent = isCorrect
-    ? 'Richtig! Gut gemacht.'
-    : `Falsch. Richtig wäre: ${correct}.`;
-  document.getElementById('explanation-text').textContent = q.kommentar || 'Keine Erklärung vorhanden.';
+    ? 'Richtig!'
+    : `Falsch — richtig wäre: ${richtigDisplay}`;
+  document.getElementById('explanation-text').textContent = kommentar || 'Keine Erklärung vorhanden.';
 
-  document.getElementById('btn-next').classList.remove('hidden');
-  document.getElementById('btn-next').textContent = currentIndex < questions.length - 1 ? 'Nächste Frage →' : '📊 Ergebnis anzeigen';
+  const isLast = currentIndex >= questionQueue.length - 1;
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.classList.remove('hidden');
+
+  if (isLast && wrongQuestions.length > 0) {
+    nextBtn.textContent = `🔁 Weiter mit ${wrongQuestions.length} falschen Fragen`;
+  } else if (isLast) {
+    nextBtn.textContent = '📊 Ergebnis anzeigen';
+  } else {
+    nextBtn.textContent = 'Nächste Frage →';
+  }
 }
 
-// ── Next question ───────────────────────────────────────────────────────────
+// ── Nächste Frage ──────────────────────────────────────────────────────────────
 function nextQuestion() {
-  currentIndex++;
-  if (currentIndex >= questions.length) {
-    showResults();
+  const isLast = currentIndex >= questionQueue.length - 1;
+
+  if (isLast) {
+    if (wrongQuestions.length > 0) {
+      // Falsche Fragen als neue Runde hinten anhängen
+      const repeated = wrongQuestions.map(q => ({...q}));
+      questionQueue = [...questionQueue, ...repeated];
+      wrongQuestions = [];
+      currentIndex++;
+      renderQuestion();
+    } else {
+      showResults();
+    }
   } else {
+    currentIndex++;
     renderQuestion();
   }
 }
 
-// ── Show results ────────────────────────────────────────────────────────────
+// ── Session beenden ────────────────────────────────────────────────────────────
+function quitSession() {
+  if (answers.length === 0) { restartQuiz(); return; }
+  showResults();
+}
+
+// ── Ergebnisse anzeigen ────────────────────────────────────────────────────────
 function showResults() {
   hide('screen-quiz');
   show('screen-result');
@@ -374,7 +520,6 @@ function showResults() {
   const total = answers.length;
   const pct = Math.round((correct / total) * 100);
 
-  // Score ring
   const circumference = 283;
   const offset = circumference - (circumference * pct / 100);
   setTimeout(() => {
@@ -382,18 +527,16 @@ function showResults() {
   }, 200);
   document.getElementById('score-pct').textContent = pct + '%';
 
-  // Title
   const titles = {
-    100: ['Perfekt! 🏆', 'Du bist bereit für die HP-Prüfung!'],
-    80:  ['Sehr gut! 🌟', 'Noch ein bisschen Übung und du schaffst es!'],
+    100: ['Perfekt! 🏆', 'Alle Fragen richtig — du bist bereit!'],
+    80:  ['Sehr gut! 🌟', 'Noch ein bisschen Übung — du schaffst es!'],
     60:  ['Gut! 💪', 'Du bist auf dem richtigen Weg — weiter so!'],
-    0:   ['Weiter üben 📚', 'Jede Frage ist eine Chance zu lernen — bleib dran!']
+    0:   ['Weiter üben 📚', 'Jede Frage ist eine Chance zu lernen.']
   };
   const key = pct === 100 ? 100 : pct >= 80 ? 80 : pct >= 60 ? 60 : 0;
   document.getElementById('result-title').textContent = titles[key][0];
-  document.getElementById('result-subtitle').textContent = titles[key][1];
+  document.getElementById('result-subtitle').textContent = `${correct} von ${total} richtig · ${titles[key][1]}`;
 
-  // Breakdown
   const breakdown = document.getElementById('result-breakdown');
   breakdown.innerHTML = '';
   answers.forEach((a, i) => {
@@ -402,35 +545,33 @@ function showResults() {
     div.innerHTML = `
       <div class="flex items-center gap-2 flex-1 min-w-0">
         <span>${a.isCorrect ? '✅' : '❌'}</span>
-        <span class="text-white/60 truncate">Frage ${i+1}: ${a.q.frage_text.substring(0,50)}...</span>
+        <span class="text-white/60 truncate">${a.q.frage_text.substring(0,55)}...</span>
       </div>
-      <span class="text-xs ml-2 ${a.isCorrect ? 'text-green-400' : 'text-red-400'} flex-shrink-0">
-        ${a.isCorrect ? 'Richtig' : 'Falsch ('+a.q.richtige_antwort+')'}
+      <span class="text-xs ml-2 flex-shrink-0 ${a.isCorrect ? 'text-green-400' : 'text-red-400'}">
+        ${a.isCorrect ? 'Richtig' : 'Falsch'}
       </span>`;
     breakdown.appendChild(div);
   });
 
-  // Get AI feedback
   getAIFeedback(correct, total, pct);
 }
 
-// ── AI Feedback ─────────────────────────────────────────────────────────────
+// ── KI-Erklärung (ohne Quellennennung, ohne Marketing) ────────────────────────
 async function getAIFeedback(correct, total, pct) {
   document.getElementById('ai-feedback-box').classList.remove('hidden');
 
   const wrongOnes = answers.filter(a => !a.isCorrect)
-    .map(a => `- ${a.q.kategorie}: "${a.q.frage_text.substring(0,80)}..." (Richtig: ${a.q.richtige_antwort})`)
+    .slice(0, 5)
+    .map(a => `- ${a.q.kategorie}: "${a.q.frage_text.substring(0, 80)}..."`)
     .join('\n');
 
-  const prompt = `Du bist der HP-Tagescoach der Aura Heilpraktiker Akademie.
-Gib ${userName} ein kurzes, motivierendes und persönliches Feedback auf ihre heutige Übungsrunde.
+  const prompt = `Du bist ein Heilpraktiker-Lerncoach. Erkläre kurz und sachlich was bei den falsch beantworteten Fragen zu wissen ist — keine Quellenangaben, keine Werbung, keine Floskeln.
 
-Ergebnis: ${correct} von ${total} richtig (${pct}%)
-${wrongOnes ? `Falsch beantwortet:\n${wrongOnes}` : 'Alle Fragen richtig!'}
-Kategorie: ${sessionCategory || 'gemischt'}
+Ergebnis: ${correct} von ${total} richtig.
+${wrongOnes ? `Falsch beantwortet:\n${wrongOnes}` : 'Alle Fragen richtig.'}
 
-Schreib 3-4 Sätze: Was hat sie gut gemacht, wo liegt die Lücke, was ist der konkrete nächste Schritt.
-Direkt an ${userName} gerichtet. Ermutigend aber ehrlich. Kein Marketing.`;
+Schreib 3-4 Sätze: Was ist der medizinische Kerninhalt der Fehler? Was muss man sich merken?
+Direkt, verständlich, ohne Quellenangaben.`;
 
   try {
     const res = await fetch(CLAUDE_PROXY, {
@@ -443,24 +584,26 @@ Direkt an ${userName} gerichtet. Ermutigend aber ehrlich. Kein Marketing.`;
       })
     });
     const data = await res.json();
-    const text = data.content?.[0]?.text || 'Feedback nicht verfügbar.';
+    const text = data.content?.[0]?.text || '';
 
     document.getElementById('ai-feedback-box').classList.add('hidden');
-    document.getElementById('ai-feedback-result').classList.remove('hidden');
-    document.getElementById('ai-feedback-text').textContent = text;
+    if (text) {
+      document.getElementById('ai-feedback-result').classList.remove('hidden');
+      document.getElementById('ai-feedback-text').textContent = text;
+    }
   } catch(e) {
     document.getElementById('ai-feedback-box').classList.add('hidden');
   }
 }
 
-// ── Restart ──────────────────────────────────────────────────────────────────
+// ── Restart ────────────────────────────────────────────────────────────────────
 function restartQuiz() {
   hide('screen-result');
   show('screen-start');
   document.getElementById('score-ring').style.strokeDashoffset = 283;
 }
 
-// ── Utils ─────────────────────────────────────────────────────────────────────
+// ── Utils ──────────────────────────────────────────────────────────────────────
 function show(id) { document.getElementById(id).classList.remove('hidden'); }
 function hide(id) { document.getElementById(id).classList.add('hidden'); }
 </script>
