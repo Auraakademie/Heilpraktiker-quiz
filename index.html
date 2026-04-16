@@ -62,8 +62,8 @@
     <div class="grid grid-cols-3 gap-4 mb-8">
       <div class="card rounded-2xl p-4 text-center">
         <div class="text-2xl mb-1">📚</div>
-        <div class="text-white font-bold text-lg">3.000+</div>
-        <div class="text-white/40 text-xs">echte HP-Fragen</div>
+        <div class="text-white font-bold text-lg">2.398</div>
+        <div class="text-white/40 text-xs">Originalprüfungsfragen</div>
       </div>
       <div class="card rounded-2xl p-4 text-center">
         <div class="text-2xl mb-1">🔁</div>
@@ -87,24 +87,27 @@
         <div>
           <label class="text-sm text-white/50 mb-1.5 block">Fachgebiet (optional)</label>
           <select id="input-category" class="w-full rounded-xl px-4 py-3 text-sm">
-            <option value="">🎲 Zufällig (empfohlen)</option>
-            <option value="Schriftliche Prüfung">📝 Schriftliche Prüfung</option>
-            <option value="Allgemein">Allgemein</option>
-            <option value="Herz-Kreislauf">Herz-Kreislauf</option>
-            <option value="Lungenerkrankungen">Lungenerkrankungen</option>
-            <option value="Infektionskrankheiten">Infektionskrankheiten</option>
-            <option value="Magen-Darm">Magen-Darm</option>
-            <option value="Orthopädie">Orthopädie</option>
+            <option value="">🎲 Zufällig — alle Prüfungen gemischt</option>
+            <option value="Allgemeinmedizin">Allgemeinmedizin</option>
+            <option value="Innere Medizin">Innere Medizin</option>
+            <option value="Kardiologie">Kardiologie</option>
             <option value="Neurologie">Neurologie</option>
-            <option value="Urologie">Urologie</option>
+            <option value="Infektionskrankheiten">Infektionskrankheiten</option>
+            <option value="Orthopädie">Orthopädie</option>
             <option value="Psychiatrie">Psychiatrie</option>
-            <option value="Haut">Haut</option>
-            <option value="Gesetzeskunde">Gesetzeskunde</option>
-            <option value="Endokrinologie">Endokrinologie</option>
+            <option value="Dermatologie">Dermatologie</option>
             <option value="Gynäkologie">Gynäkologie</option>
+            <option value="Urologie">Urologie</option>
             <option value="Notfallmedizin">Notfallmedizin</option>
             <option value="Pharmakologie">Pharmakologie</option>
-            <option value="Laborwerte">Laborwerte</option>
+            <option value="Labordiagnostik">Labordiagnostik</option>
+            <option value="Stoffwechsel">Stoffwechsel</option>
+            <option value="Rheumatologie">Rheumatologie</option>
+            <option value="Hals-Nasen-Ohren">Hals-Nasen-Ohren</option>
+            <option value="Augenheilkunde">Augenheilkunde</option>
+            <option value="Chirurgie">Chirurgie</option>
+            <option value="Onkologie">Onkologie</option>
+            <option value="Pädiatrie">Pädiatrie</option>
           </select>
         </div>
       </div>
@@ -241,7 +244,7 @@
 
 <script>
 const SUPABASE_URL = 'https://ozbzykrlazjsycscbmcf.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96Ynp5a3JsYXpqc3ljc2NibWNmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDkwMTc0OSwiZXhwIjoyMDkwNDc3NzQ5fQ.d6elPA1dmfEu3EYoHK7TzBxQpwtj3KLnZIQhspEd9d8';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96Ynp5a3JsYXpqc3ljc2NibWNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5MDE3NDksImV4cCI6MjA5MDQ3Nzc0OX0.dCstPgB9-o-uk3V95JXPYZFDkHRB83fbebwwBkijtEI';
 const CLAUDE_PROXY = 'https://auraakademie.app.n8n.cloud/webhook/aura-claude-proxy';
 const POOL_SIZE = 30;
 
@@ -287,7 +290,14 @@ function cleanOptionText(text) {
 
 // ── Supabase fetch ─────────────────────────────────────────────────────────────
 async function fetchQuestions(category = '') {
-  let url = `${SUPABASE_URL}/rest/v1/hp_pruefungsfragen?select=id,frage_text,option_a,option_b,option_c,option_d,option_e,richtige_antwort,kommentar,kategorie&limit=200`;
+  // Pflichtfilter laut supabase_reference.json
+  let url = `${SUPABASE_URL}/rest/v1/hp_questions`
+    + `?select=id,frage_text,option_a,option_b,option_c,option_d,option_e,richtige_antwort,kommentar,kategorie,pruefungsjahr,pruefungsmonat`
+    + `&quelle=eq.isolde-richter`
+    + `&richtige_antwort=not.is.null`
+    + `&richtige_antwort=neq.`
+    + `&frage_text=not.is.null`
+    + `&limit=200`;
   if (category) url += `&kategorie=eq.${encodeURIComponent(category)}`;
 
   const res = await fetch(url, {
@@ -297,7 +307,12 @@ async function fetchQuestions(category = '') {
   if (!Array.isArray(data)) {
     throw new Error('Fragen konnten nicht geladen werden.');
   }
-  const shuffled = data.sort(() => Math.random() - 0.5);
+  // Client-seitiger Pflichtfilter
+  const clean = data.filter(q =>
+    q.frage_text && q.frage_text.trim().length >= 40 &&
+    /[?.!:)\d]$/.test(q.frage_text.trim())
+  );
+  const shuffled = clean.sort(() => Math.random() - 0.5);
   return shuffled.slice(0, POOL_SIZE);
 }
 
