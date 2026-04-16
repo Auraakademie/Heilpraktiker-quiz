@@ -161,10 +161,6 @@
         <span id="result-label" class="font-semibold text-sm"></span>
       </div>
       <p class="text-white/70 text-sm leading-relaxed" id="explanation-text"></p>
-      <div id="explanation-loading" class="hidden flex items-center gap-2 mt-2">
-        <div class="spinner" style="width:16px;height:16px;border-width:2px"></div>
-        <span class="text-white/40 text-xs">Erklärung wird geladen...</span>
-      </div>
     </div>
 
     <!-- Next button -->
@@ -212,20 +208,6 @@
       <div id="result-breakdown" class="space-y-3"></div>
     </div>
 
-    <!-- AI Feedback -->
-    <div id="ai-feedback-box" class="card rounded-2xl p-5 mb-5 hidden">
-      <div class="flex items-center gap-2 mb-3">
-        <div class="spinner" style="width:20px;height:20px;border-width:2px"></div>
-        <span class="text-white/60 text-sm">Erklärung wird erstellt...</span>
-      </div>
-    </div>
-    <div id="ai-feedback-result" class="card rounded-2xl p-5 mb-5 hidden border-l-4" style="border-left-color: #7c3aed;">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="text-purple-400 text-lg">💡</span>
-        <span class="font-semibold text-white text-sm">Was du wissen musst</span>
-      </div>
-      <p class="text-white/70 text-sm leading-relaxed" id="ai-feedback-text"></p>
-    </div>
 
     <!-- CTA -->
     <div class="card rounded-2xl p-5 mb-4" style="border: 1px solid rgba(124,58,237,0.3); background: rgba(124,58,237,0.08);">
@@ -249,7 +231,6 @@
 <script>
 const SUPABASE_URL = 'https://ozbzykrlazjsycscbmcf.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96Ynp5a3JsYXpqc3ljc2NibWNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5MDE3NDksImV4cCI6MjA5MDQ3Nzc0OX0.dCstPgB9-o-uk3V95JXPYZFDkHRB83fbebwwBkijtEI';
-const CLAUDE_PROXY = 'https://auraakademie.app.n8n.cloud/webhook/aura-claude-proxy';
 const POOL_SIZE = 30;
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -512,7 +493,7 @@ function evaluateAnswer(isCorrect, richtigDisplay) {
     wrongQuestions.push(q);
   }
 
-  // Erklärung zeigen
+  // Erklärung zeigen — direkt aus DB, kein API-Call
   const kommentar = cleanKommentar(q.kommentar);
   const box = document.getElementById('explanation-box');
   box.classList.remove('hidden', 'fade-in');
@@ -525,15 +506,11 @@ function evaluateAnswer(isCorrect, richtigDisplay) {
     ? 'Richtig!'
     : `Falsch — richtig wäre: ${richtigDisplay}`;
 
-  if (kommentar && kommentar.length >= 30) {
-    document.getElementById('explanation-text').textContent = kommentar;
-    document.getElementById('explanation-loading').classList.add('hidden');
-  } else {
-    // Kein brauchbarer Kommentar → KI generiert Erklärung
-    document.getElementById('explanation-text').textContent = '';
-    document.getElementById('explanation-loading').classList.remove('hidden');
-    generateInlineExplanation(q, richtigDisplay);
-  }
+  document.getElementById('explanation-loading').classList.add('hidden');
+  document.getElementById('explanation-text').textContent =
+    (kommentar && kommentar.length >= 20)
+      ? kommentar
+      : `Die richtige Antwort ist ${richtigDisplay}. Präge dir diese Aussage gut ein — sie ist prüfungsrelevant.`;
 
   const isLast = currentIndex >= questionQueue.length - 1;
   const nextBtn = document.getElementById('btn-next');
@@ -617,83 +594,8 @@ function showResults() {
     breakdown.appendChild(div);
   });
 
-  getAIFeedback(correct, total, pct);
 }
 
-// ── Inline KI-Erklärung bei fehlender Erklärung ───────────────────────────────
-async function generateInlineExplanation(q, richtigDisplay) {
-  const opts = ['A','B','C','D','E']
-    .filter(l => q['option_' + l.toLowerCase()])
-    .map(l => `${l}: ${q['option_' + l.toLowerCase()]}`)
-    .join('\n');
-
-  const prompt = `Du bist ein Heilpraktiker-Lerncoach. Erkläre in 2-3 Sätzen sachlich warum die Antwort "${richtigDisplay}" richtig ist.
-
-Frage: ${q.frage_text}
-Antwortoptionen:
-${opts}
-
-Nur den medizinischen Kern erklären. NIEMALS Quellen, Bücher, Webseiten oder Autoren nennen. Kein Marketing. Direkt und verständlich auf Deutsch.`;
-
-  try {
-    const res = await fetch(CLAUDE_PROXY, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 200,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.[0]?.text || '';
-    document.getElementById('explanation-loading').classList.add('hidden');
-    document.getElementById('explanation-text').textContent = text || 'Keine Erklärung verfügbar.';
-  } catch(e) {
-    document.getElementById('explanation-loading').classList.add('hidden');
-    document.getElementById('explanation-text').textContent = 'Keine Erklärung verfügbar.';
-  }
-}
-
-// ── KI-Erklärung (ohne Quellennennung, ohne Marketing) ────────────────────────
-async function getAIFeedback(correct, total, pct) {
-  document.getElementById('ai-feedback-box').classList.remove('hidden');
-
-  const wrongOnes = answers.filter(a => !a.isCorrect)
-    .slice(0, 5)
-    .map(a => `- ${a.q.kategorie}: "${a.q.frage_text.substring(0, 80)}..."`)
-    .join('\n');
-
-  const prompt = `Du bist ein Heilpraktiker-Lerncoach. Erkläre kurz und sachlich was bei den falsch beantworteten Fragen zu wissen ist — keine Quellenangaben, keine Werbung, keine Floskeln.
-
-Ergebnis: ${correct} von ${total} richtig.
-${wrongOnes ? `Falsch beantwortet:\n${wrongOnes}` : 'Alle Fragen richtig.'}
-
-Schreib 3-4 Sätze: Was ist der medizinische Kerninhalt der Fehler? Was muss man sich merken?
-Direkt, verständlich auf Deutsch. NIEMALS Quellen, Bücher, Webseiten oder Autoren nennen.`;
-
-  try {
-    const res = await fetch(CLAUDE_PROXY, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 300,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.[0]?.text || '';
-
-    document.getElementById('ai-feedback-box').classList.add('hidden');
-    if (text) {
-      document.getElementById('ai-feedback-result').classList.remove('hidden');
-      document.getElementById('ai-feedback-text').textContent = text;
-    }
-  } catch(e) {
-    document.getElementById('ai-feedback-box').classList.add('hidden');
-  }
-}
 
 // ── Restart ────────────────────────────────────────────────────────────────────
 function restartQuiz() {
