@@ -602,7 +602,7 @@ Frage: ${q.frage_text}
 Antwortoptionen:
 ${opts}
 
-Nur den medizinischen Kern erklären. Keine Quellenangaben. Kein Marketing. Direkt und verständlich.`;
+Nur den medizinischen Kern erklären. NIEMALS Quellen, Bücher, Webseiten oder Autoren nennen. Kein Marketing. Direkt und verständlich auf Deutsch.`;
 
   try {
     const res = await fetch(CLAUDE_PROXY, {
@@ -639,7 +639,7 @@ Ergebnis: ${correct} von ${total} richtig.
 ${wrongOnes ? `Falsch beantwortet:\n${wrongOnes}` : 'Alle Fragen richtig.'}
 
 Schreib 3-4 Sätze: Was ist der medizinische Kerninhalt der Fehler? Was muss man sich merken?
-Direkt, verständlich, ohne Quellenangaben.`;
+Direkt, verständlich auf Deutsch. NIEMALS Quellen, Bücher, Webseiten oder Autoren nennen.`;
 
   try {
     const res = await fetch(CLAUDE_PROXY, {
