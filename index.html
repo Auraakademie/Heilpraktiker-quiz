@@ -161,6 +161,10 @@
         <span id="result-label" class="font-semibold text-sm"></span>
       </div>
       <p class="text-white/70 text-sm leading-relaxed" id="explanation-text"></p>
+      <div id="explanation-loading" class="hidden flex items-center gap-2 mt-2">
+        <div class="spinner" style="width:16px;height:16px;border-width:2px"></div>
+        <span class="text-white/40 text-xs">Erklärung wird geladen...</span>
+      </div>
     </div>
 
     <!-- Next button -->
@@ -270,11 +274,16 @@ window.addEventListener('DOMContentLoaded', () => {
 function cleanKommentar(text) {
   if (!text) return '';
   return text
-    .replace(/Forum\.Isolde[^.]*\./gi, '')
-    .replace(/Seite\s+\d+\s+von\s+\d+[^.]*\./gi, '')
-    .replace(/Quelle:[^.]*\./gi, '')
+    .replace(/Forum\.Isolde[^\n.]*/gi, '')
+    .replace(/Seite\s+\d+\s+von\s+\d+[^\n.]*/gi, '')
+    .replace(/Die\s+Original-Amtsarztfragen[^\n.]*/gi, '')
+    .replace(/Heilpraktikerpr[üu]fung[^\n.]*/gi, '')
+    .replace(/Amtsarzt[^\n.]*/gi, '')
+    .replace(/isolde[^\n.]*/gi, '')
+    .replace(/Quelle:[^\n.]*/gi, '')
     .replace(/www\.[^\s]+/gi, '')
     .replace(/http[^\s]+/gi, '')
+    .replace(/\bde\b\s*$/gim, '')
     .replace(/\s{2,}/g, ' ')
     .trim();
 }
@@ -484,7 +493,16 @@ function evaluateAnswer(isCorrect, richtigDisplay) {
   document.getElementById('result-label').textContent = isCorrect
     ? 'Richtig!'
     : `Falsch — richtig wäre: ${richtigDisplay}`;
-  document.getElementById('explanation-text').textContent = kommentar || 'Keine Erklärung vorhanden.';
+
+  if (kommentar && kommentar.length >= 30) {
+    document.getElementById('explanation-text').textContent = kommentar;
+    document.getElementById('explanation-loading').classList.add('hidden');
+  } else {
+    // Kein brauchbarer Kommentar → KI generiert Erklärung
+    document.getElementById('explanation-text').textContent = '';
+    document.getElementById('explanation-loading').classList.remove('hidden');
+    generateInlineExplanation(q, richtigDisplay);
+  }
 
   const isLast = currentIndex >= questionQueue.length - 1;
   const nextBtn = document.getElementById('btn-next');
@@ -569,6 +587,41 @@ function showResults() {
   });
 
   getAIFeedback(correct, total, pct);
+}
+
+// ── Inline KI-Erklärung bei fehlender Erklärung ───────────────────────────────
+async function generateInlineExplanation(q, richtigDisplay) {
+  const opts = ['A','B','C','D','E']
+    .filter(l => q['option_' + l.toLowerCase()])
+    .map(l => `${l}: ${q['option_' + l.toLowerCase()]}`)
+    .join('\n');
+
+  const prompt = `Du bist ein Heilpraktiker-Lerncoach. Erkläre in 2-3 Sätzen sachlich warum die Antwort "${richtigDisplay}" richtig ist.
+
+Frage: ${q.frage_text}
+Antwortoptionen:
+${opts}
+
+Nur den medizinischen Kern erklären. Keine Quellenangaben. Kein Marketing. Direkt und verständlich.`;
+
+  try {
+    const res = await fetch(CLAUDE_PROXY, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 200,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '';
+    document.getElementById('explanation-loading').classList.add('hidden');
+    document.getElementById('explanation-text').textContent = text || 'Keine Erklärung verfügbar.';
+  } catch(e) {
+    document.getElementById('explanation-loading').classList.add('hidden');
+    document.getElementById('explanation-text').textContent = 'Keine Erklärung verfügbar.';
+  }
 }
 
 // ── KI-Erklärung (ohne Quellennennung, ohne Marketing) ────────────────────────
