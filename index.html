@@ -260,21 +260,33 @@ input::placeholder { color: var(--ink-mute); }
         <p style="font-size:14px;color:rgba(255,255,255,0.65);margin-bottom:20px;line-height:1.6;">Die App ist noch in der Beta-Phase — sichere dir jetzt den Jahrespreis, bevor sie offiziell erscheint.</p>
 
         <!-- Pricing -->
-        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(184,138,62,0.25);border-radius:16px;padding:16px;margin-bottom:16px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <!-- Jahresabo -->
+        <div style="background:rgba(255,255,255,0.06);border:1.5px solid rgba(184,138,62,0.5);border-radius:16px;padding:16px;margin-bottom:10px;position:relative;">
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);padding:4px 14px;background:var(--gold);border-radius:100px;font-size:10px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;">⭐ Bestes Angebot</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
             <div>
               <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Jahresabo</div>
-              <div style="display:flex;align-items:baseline;gap:8px;">
-                <span class="serif" style="font-size:38px;font-weight:400;color:#fff;">89€</span>
-                <span style="font-size:13px;color:rgba(255,255,255,0.45);">/Jahr</span>
+              <div style="display:flex;align-items:baseline;gap:6px;">
+                <span style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:line-through;">179€</span>
+                <span class="serif" style="font-size:36px;font-weight:400;color:#fff;">89€</span>
+                <span style="font-size:12px;color:rgba(255,255,255,0.45);">/Jahr</span>
               </div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:line-through;margin-top:2px;">179,88€ bei monatlicher Zahlung</div>
             </div>
-            <div style="padding:8px 14px;background:var(--gold);border-radius:100px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;">50% gespart</div>
+            <div style="padding:7px 13px;background:rgba(184,138,62,0.3);border:1px solid rgba(212,168,90,0.4);border-radius:100px;font-size:12px;font-weight:700;color:var(--gold-light);white-space:nowrap;">SPARE 50%</div>
           </div>
-          <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.4);">Oder monatlich</span>
-            <span style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.65);">14,99€/Monat</span>
+        </div>
+        <!-- Monatlich -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Monatlich</div>
+              <div style="display:flex;align-items:baseline;gap:6px;">
+                <span style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:line-through;">24,99€</span>
+                <span class="serif" style="font-size:28px;font-weight:400;color:rgba(255,255,255,0.8);">14,99€</span>
+                <span style="font-size:12px;color:rgba(255,255,255,0.4);">/Monat</span>
+              </div>
+            </div>
+            <div style="padding:7px 13px;background:rgba(255,255,255,0.07);border-radius:100px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.45);white-space:nowrap;">40% Rabatt</div>
           </div>
         </div>
 
