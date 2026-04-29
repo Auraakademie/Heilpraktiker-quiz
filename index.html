@@ -128,17 +128,17 @@ input::placeholder { color: var(--ink-mute); }
 <div id="email-overlay" class="overlay hidden">
   <div class="overlay-card fade-in">
     <div style="text-align:center;margin-bottom:24px;">
-      <span class="badge" style="margin-bottom:16px;display:inline-flex;">✦ Gut gemacht</span>
-      <h2 class="serif" style="font-size:26px;font-weight:500;color:var(--ink);margin:12px 0 8px;letter-spacing:-0.01em;">Bleib dabei.</h2>
-      <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;">Trag deine Email ein und sichere dir deinen <strong style="color:var(--gold);">Early Bird Zugang</strong> zum AURA HP Prüfungstrainer.</p>
+      <span class="badge" style="margin-bottom:16px;display:inline-flex;">✦ 7 Fragen geschafft</span>
+      <h2 class="serif" style="font-size:26px;font-weight:500;color:var(--ink);margin:12px 0 8px;letter-spacing:-0.01em;">Fast <em>fertig.</em></h2>
+      <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;">Trag deine Email ein — wir schicken dir dein Ergebnis und deinen <strong style="color:var(--gold);">7-Tage-Gratis-Zugang</strong> zur AURA HP Prüfungstrainer App.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
       <input id="overlay-name" type="text" placeholder="Dein Vorname">
       <input id="overlay-email" type="email" placeholder="Deine Email-Adresse">
     </div>
-    <button onclick="submitEmail()" class="btn btn-primary" style="margin-bottom:10px;">Jetzt Early Bird sichern →</button>
+    <button onclick="submitEmail()" class="btn btn-primary" style="margin-bottom:10px;">Kostenlos weitermachen →</button>
     <button onclick="skipEmail()" class="btn btn-ghost">Ohne Email weitermachen</button>
-    <p style="text-align:center;font-size:11px;color:var(--ink-mute);margin-top:12px;">Kein Spam. Abmeldung jederzeit möglich.</p>
+    <p style="text-align:center;font-size:11px;color:var(--ink-mute);margin-top:12px;">Kein Spam · Abmeldung jederzeit möglich</p>
   </div>
 </div>
 
@@ -255,26 +255,41 @@ input::placeholder { color: var(--ink-mute); }
     <!-- EARLY BIRD -->
     <div class="early-bird" style="margin-bottom:16px;">
       <div style="position:relative;z-index:1;">
-        <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(184,138,62,0.2);border:1px solid rgba(212,168,90,0.4);border-radius:100px;font-size:11px;font-weight:700;color:var(--gold-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">🔥 Early Bird</span>
-        <h3 class="serif" style="font-size:24px;font-weight:400;color:#fff;letter-spacing:-0.01em;margin-bottom:8px;">AURA HP Prüfungstrainer</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,0.65);margin-bottom:20px;line-height:1.6;">Sichere dir jetzt deinen Frühbucher-Preis — bevor die App offiziell erscheint.</p>
-        <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:20px;">
-          <div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:line-through;margin-bottom:2px;">Regulär XX€</div>
-            <div class="serif" style="font-size:36px;font-weight:400;color:#fff;">XX€</div>
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(184,138,62,0.2);border:1px solid rgba(212,168,90,0.4);border-radius:100px;font-size:11px;font-weight:700;color:var(--gold-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">🔥 Early Bird · Noch nicht öffentlich</span>
+        <h3 class="serif" style="font-size:24px;font-weight:400;color:#fff;letter-spacing:-0.01em;margin-bottom:8px;">AURA HP Prüfungstrainer App</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,0.65);margin-bottom:20px;line-height:1.6;">Die App ist noch in der Beta-Phase — sichere dir jetzt den Jahrespreis, bevor sie offiziell erscheint.</p>
+
+        <!-- Pricing -->
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(184,138,62,0.25);border-radius:16px;padding:16px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Jahresabo</div>
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <span class="serif" style="font-size:38px;font-weight:400;color:#fff;">89€</span>
+                <span style="font-size:13px;color:rgba(255,255,255,0.45);">/Jahr</span>
+              </div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:line-through;margin-top:2px;">179,88€ bei monatlicher Zahlung</div>
+            </div>
+            <div style="padding:8px 14px;background:var(--gold);border-radius:100px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;">50% gespart</div>
           </div>
-          <div style="padding:5px 12px;background:var(--gold);border-radius:100px;font-size:12px;font-weight:700;color:#fff;margin-bottom:6px;">XX% gespart</div>
+          <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:12px;color:rgba(255,255,255,0.4);">Oder monatlich</span>
+            <span style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.65);">14,99€/Monat</span>
+          </div>
         </div>
+
+        <!-- Features -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
           <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">🩺 Anamnese Training</div>
           <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">📋 Original Prüfungen</div>
           <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">🎤 Mündliche Prüfung</div>
           <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">📊 Lernfortschritt</div>
         </div>
+
         <a href="EARLY_BIRD_URL" target="_blank" style="display:block;width:100%;padding:16px;border-radius:100px;background:var(--gold);color:#fff;font-weight:700;font-size:15px;text-align:center;text-decoration:none;box-shadow:0 12px 40px rgba(184,138,62,0.35);transition:all 0.3s;" onmouseover="this.style.background='#D4A85A'" onmouseout="this.style.background='var(--gold)'">
-          🔒 Early Bird Preis sichern →
+          7 Tage gratis testen →
         </a>
-        <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;">Nur für kurze Zeit · Preis steigt nach Launch</p>
+        <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;">Kein Risiko · Kündigung jederzeit möglich · Preis steigt nach Launch</p>
       </div>
     </div>
 
