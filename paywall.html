@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA App — Heilpraktiker-Prüfung bestehen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #FAF7F2;
+    --bg-soft:   #F3EDE2;
+    --bg-card:   #FFFFFF;
+    --border:    rgba(26,30,42,0.08);
+    --ink:       #1C1F2A;
+    --ink-soft:  #4A4D58;
+    --ink-mute:  #8A8D96;
+    --gold:      #B88A3E;
+    --gold-light:#D4A85A;
+    --gold-bg:   #F7EED9;
+    --gold-border: rgba(184,138,62,0.3);
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .serif { font-family: 'Fraunces', Georgia, serif; }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 32px 20px 20px;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  .logo span { color: var(--gold); }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: var(--gold-bg);
+    border: 1px solid var(--gold-border);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7D5D26;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 40px 20px 20px;
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(184,138,62,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 7vw, 58px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero p {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 auto 32px;
+  }
+
+  /* ── SOCIAL PROOF ── */
+  .social-proof {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 40px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .stars { color: var(--gold); letter-spacing: 1px; }
+
+  /* ── COUNTDOWN ── */
+  .countdown-wrap {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .countdown-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+  }
+  .countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 16px;
+    padding: 14px 24px;
+  }
+  .countdown-time {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold-light);
+    min-width: 90px;
+    text-align: center;
+  }
+  .countdown-sep { color: rgba(255,255,255,0.3); font-size: 24px; }
+  .countdown-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+  }
+
+  /* ── PRICING ── */
+  .pricing {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 600px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+
+  .plan {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .plan:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(28,31,42,0.08);
+  }
+  .plan.featured {
+    border-color: var(--gold-border);
+    background: linear-gradient(175deg, #FFFFFF, var(--gold-bg) 250%);
+    box-shadow: 0 8px 40px rgba(184,138,62,0.12);
+  }
+
+  .plan-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+
+  .plan-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .plan-price {
+    font-family: 'Fraunces', serif;
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+  .plan-price sup {
+    font-size: 22px;
+    font-weight: 600;
+    vertical-align: super;
+    margin-right: 2px;
+  }
+  .plan-price-orig {
+    font-size: 14px;
+    color: var(--ink-mute);
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+  .plan-period {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .plan-per-day {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .plan-features {
+    list-style: none;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .plan-features li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .btn-plan {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-plan-primary {
+    background: var(--ink);
+    color: #fff;
+    box-shadow: 0 12px 40px rgba(28,31,42,0.2);
+  }
+  .btn-plan-primary:hover {
+    background: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 50px rgba(184,138,62,0.3);
+  }
+  .btn-plan-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+  }
+  .btn-plan-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── TRIAL NOTE ── */
+  .trial-note {
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 48px;
+  }
+  .trial-note strong { color: var(--ink-soft); }
+
+  /* ── FEATURES ── */
+  .features {
+    max-width: 780px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+  }
+  .features-title {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .features-title em { font-style: italic; color: var(--gold); }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 500px) {
+    .features-grid { grid-template-columns: 1fr; }
+  }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  .feature-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .feature-item h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .feature-item p {
+    font-size: 12px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 32px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-mute);
+  }
+  footer a { color: var(--ink-mute); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">✦ <span>AURA</span> Heilpraktiker App</div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="badge">✦ 7 Tage kostenlos testen</div>
+  <h1>Deine Heilpraktiker-Prüfung.<br>Mit <em>KI-Coaching</em> bestehen.</h1>
+  <p>5.000+ Originalfragen, KI-Anamnese, Meditationen & täglicher Lernplan — alles in einer App.</p>
+  <div class="social-proof">
+    <span class="stars">★★★★★</span>
+    <span>Von über 800 Heilpraktiker-Anwärterinnen genutzt</span>
+  </div>
+</section>
+
+<!-- Countdown -->
+<div class="countdown-wrap">
+  <div class="countdown-label">Angebot endet in</div>
+  <div class="countdown">
+    <div>
+      <div class="countdown-time" id="timer">14:59</div>
+      <div class="countdown-desc">Min · Sek</div>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<section class="pricing">
+  <div class="pricing-grid">
+
+    <!-- Jahresabo (featured) -->
+    <div class="plan featured">
+      <div class="plan-badge">✦ Bestes Angebot · Spare 50%</div>
+      <div class="plan-name">Jahresplan</div>
+      <div class="plan-price-orig">179€ / Jahr</div>
+      <div class="plan-price"><sup>€</sup>89</div>
+      <div class="plan-period">pro Jahr · einmalige Zahlung</div>
+      <div class="plan-per-day">= nur 0,24€ pro Tag</div>
+      <ul class="plan-features">
+        <li>Unbegrenzte Originalprüfungen 2002–2026</li>
+        <li>KI-Anamnese mit Sprachfunktion</li>
+        <li>7 geführte Meditationen</li>
+        <li>Täglicher Lernplan & Streak</li>
+        <li>Alle zukünftigen Updates inklusive</li>
+      </ul>
+      <a href="THRIVECART_JAHRES_LINK" class="btn-plan btn-plan-primary">
+        Jetzt starten — 7 Tage gratis →
+      </a>
+    </div>
+
+    <!-- Monatlich -->
+    <div class="plan">
+      <div class="plan-name">Monatsplan</div>
+      <div class="plan-price-orig">24,99€ / Monat</div>
+      <div class="plan-price"><sup>€</sup>14<span style="font-size:22px">,99</span></div>
+      <div class="plan-period">pro Monat · monatlich kündbar</div>
+      <div class="plan-per-day" style="color: var(--ink-mute);">&nbsp;</div>
+      <ul class="plan-features">
+        <li>Unbegrenzte Originalprüfungen 2002–2026</li>
+        <li>KI-Anamnese mit Sprachfunktion</li>
+        <li>7 geführte Meditationen</li>
+        <li>Täglicher Lernplan & Streak</li>
+        <li>Jederzeit kündbar</li>
+      </ul>
+      <a href="THRIVECART_MONAT_LINK" class="btn-plan btn-plan-secondary">
+        Monatlich starten →
+      </a>
+    </div>
+
+  </div>
+
+  <p class="trial-note">
+    <strong>7 Tage kostenlos.</strong> Kein Risiko — kündige jederzeit vor Ablauf der Testphase.
+  </p>
+</section>
+
+<!-- Features -->
+<section class="features">
+  <h2 class="features-title">Alles was du für die <em>Prüfung</em> brauchst</h2>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">📋</div>
+      <div>
+        <h4>Originalprüfungen 2002–2026</h4>
+        <p>5.000+ echte Prüfungsfragen aus allen Jahrgängen</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🩺</div>
+      <div>
+        <h4>KI-Anamnese Training</h4>
+        <p>Unbegrenzt zufällige Patientenfälle mit Sprachsimulation</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">✨</div>
+      <div>
+        <h4>Meditationen & Mindset</h4>
+        <p>Prüfungsangst lösen, Fokus stärken, besser schlafen</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📈</div>
+      <div>
+        <h4>Intelligenter Lernplan</h4>
+        <p>Tägliche Ziele, Streak-Tracking, Schwächenanalyse</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>
+    <a href="https://auraakademie.de/impressum">Impressum</a> ·
+    <a href="https://auraakademie.de/datenschutz">Datenschutz</a> ·
+    &copy; 2026 Aura Global Digital LLC
+  </p>
+</footer>
+
+<script>
+  // Marketing Countdown — reset bei jedem Besuch
+  const MINUTES = 14;
+  const SECONDS = 59;
+  let total = MINUTES * 60 + SECONDS;
+  const el = document.getElementById('timer');
+
+  function tick() {
+    const m = String(Math.floor(total / 60)).padStart(2, '0');
+    const s = String(total % 60).padStart(2, '0');
+    el.textContent = m + ':' + s;
+    if (total > 0) { total--; } else { total = MINUTES * 60 + SECONDS; }
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>
