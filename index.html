@@ -221,40 +221,25 @@
       <p class="text-white/50 text-xs text-center">Nur für kurze Zeit · Preis steigt nach Launch</p>
     </div>
 
-    <!-- App CTA -->
+    <!-- HPA Lernprogramm CTA -->
     <div class="card rounded-2xl p-5 mb-4" style="border: 2px solid #0d9488;">
       <div class="flex items-center gap-2 mb-3">
         <div class="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center text-white text-sm font-bold">A</div>
         <div>
-          <div class="font-bold text-slate-800 text-sm">AURA HP Prüfungstrainer</div>
-          <div class="text-xs text-teal-600 font-medium">Die komplette Prüfungsvorbereitung</div>
+          <div class="font-bold text-slate-800 text-sm">Intensiv-Prüfungsvorbereitung</div>
+          <div class="text-xs text-teal-600 font-medium">6 Monate — schriftlich & mündlich</div>
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-2 mb-4">
-        <div class="bg-slate-50 rounded-xl p-3 text-center">
-          <div class="text-base mb-1">🩺</div>
-          <div class="text-xs font-semibold text-slate-700">Anamnese Training</div>
-        </div>
-        <div class="bg-slate-50 rounded-xl p-3 text-center">
-          <div class="text-base mb-1">📋</div>
-          <div class="text-xs font-semibold text-slate-700">Original Prüfungen</div>
-        </div>
-        <div class="bg-slate-50 rounded-xl p-3 text-center">
-          <div class="text-base mb-1">🎤</div>
-          <div class="text-xs font-semibold text-slate-700">Mündliche Prüfung</div>
-        </div>
-        <div class="bg-slate-50 rounded-xl p-3 text-center">
-          <div class="text-base mb-1">📊</div>
-          <div class="text-xs font-semibold text-slate-700">Lernfortschritt</div>
-        </div>
-      </div>
-      <div class="bg-teal-50 border border-teal-200 rounded-xl p-3 text-center mb-3">
-        <div class="text-xs font-semibold text-teal-700">🚀 Bald im App Store & Google Play</div>
-        <div class="text-xs text-teal-600 mt-0.5">Jetzt schon testen — trag dich auf die Warteliste ein</div>
+      <div class="space-y-2 mb-4">
+        <div class="flex items-center gap-2 text-sm text-slate-600"><span class="text-teal-600 font-bold">✓</span> Wöchentlicher Live-Unterricht</div>
+        <div class="flex items-center gap-2 text-sm text-slate-600"><span class="text-teal-600 font-bold">✓</span> Vollständige Skripte & Lernmaterialien</div>
+        <div class="flex items-center gap-2 text-sm text-slate-600"><span class="text-teal-600 font-bold">✓</span> Community & persönliche Begleitung</div>
+        <div class="flex items-center gap-2 text-sm text-slate-600"><span class="text-teal-600 font-bold">✓</span> Vorbereitung schriftliche & mündliche Prüfung</div>
+        <div class="flex items-center gap-2 text-sm text-slate-600"><span class="text-teal-600 font-bold">✓</span> Alles was du für die HP-Prüfung brauchst</div>
       </div>
       <a href="https://www.auraakademie.de/aura-heilpraktiker-akademie" target="_blank"
-        class="btn-teal block w-full py-3 rounded-xl font-semibold text-sm text-center mb-2">
-        Zur Warteliste →
+        class="btn-teal block w-full py-3.5 rounded-xl font-semibold text-sm text-center">
+        Intensiv-Programm ansehen →
       </a>
     </div>
 
@@ -327,6 +312,37 @@ function formatQuestionText(text) {
     const item = parts[i].trim();
     if (item) html += `<span class="block mt-2 pl-3 border-l-2 border-teal-200 text-slate-700">${item}</span>`;
   }
+  return html;
+}
+
+function formatKommentar(text, richtigArr) {
+  if (!text) return '';
+  // Splitte bei "A)" "B)" etc. am Satzanfang oder nach Leerzeichen
+  const parts = text.split(/(?=\b[A-E]\)\s)/);
+  if (parts.length <= 1) return `<span class="text-slate-600 text-sm leading-relaxed">${escapeHtml(text)}</span>`;
+
+  let html = '';
+  parts.forEach(part => {
+    const match = part.match(/^([A-E])\)\s*(.*)/s);
+    if (match) {
+      const letter  = match[1];
+      const content = match[2].trim();
+      const isRight = richtigArr.includes(letter);
+      const bgColor = isRight ? 'background:#f0fdf4;border-left:3px solid #16a34a;' : 'background:#f8fafc;border-left:3px solid #e2e8f0;';
+      const txtColor = isRight ? 'color:#15803d;' : 'color:#64748b;';
+      const badge   = isRight
+        ? `<span style="background:#dcfce7;color:#16a34a;font-size:10px;font-weight:700;padding:1px 6px;border-radius:99px;margin-right:6px;">✓ Richtig</span>`
+        : '';
+      html += `<div style="${bgColor}border-radius:10px;padding:10px 12px;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;margin-bottom:3px;">
+          <span style="font-weight:700;${txtColor}margin-right:6px;">${letter})</span>${badge}
+        </div>
+        <span style="font-size:13px;line-height:1.5;${txtColor}">${escapeHtml(content)}</span>
+      </div>`;
+    } else if (part.trim()) {
+      html += `<p style="color:#64748b;font-size:13px;line-height:1.5;margin-bottom:8px;">${escapeHtml(part.trim())}</p>`;
+    }
+  });
   return html;
 }
 
@@ -483,10 +499,12 @@ function evaluateAnswer(isCorrect, richtigDisplay) {
 
   document.getElementById('result-icon').textContent  = isCorrect ? '✅' : '❌';
   document.getElementById('result-label').textContent = isCorrect ? 'Richtig!' : `Falsch — richtig: ${richtigDisplay}`;
-  document.getElementById('explanation-text').textContent =
-    (kommentar && kommentar.length >= 20)
-      ? kommentar
-      : `Die richtige Antwort ist ${richtigDisplay}. Präge dir diese Aussage gut ein.`;
+  const explEl = document.getElementById('explanation-text');
+  if (kommentar && kommentar.length >= 20) {
+    explEl.innerHTML = formatKommentar(kommentar, richtigArr);
+  } else {
+    explEl.textContent = `Die richtige Antwort ist ${richtigDisplay}. Präge dir diese Aussage gut ein.`;
+  }
 
   const isLast  = currentIndex >= questionQueue.length - 1;
   const nextBtn = document.getElementById('btn-next');
