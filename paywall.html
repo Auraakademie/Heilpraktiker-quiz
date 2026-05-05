@@ -106,14 +106,18 @@
   .hero .pill { margin-bottom: 32px; }
   .hero h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(40px, 6.5vw, 72px);
+    font-size: clamp(32px, 5.2vw, 62px);
     font-weight: 400;
-    line-height: 1.06;
-    letter-spacing: -0.03em;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
     color: var(--ink);
     margin-bottom: 28px;
   }
   .hero h1 .nowrap { white-space: nowrap; }
+  @media (max-width: 480px) {
+    .hero h1 { font-size: clamp(30px, 8vw, 40px); }
+    .hero h1 .nowrap { white-space: normal; }
+  }
   .hero h1 em {
     font-style: italic;
     color: var(--gold);
@@ -919,7 +923,7 @@
 <!-- Hero -->
 <section class="hero">
   <div class="pill"><span class="dot"></span>Frühbucher-Preis · Limitiert</div>
-  <h1>Bestehe deine <em class="nowrap">HP-Prüfung.</em><br>Mit der App, die <em>alles</em> kann.</h1>
+  <h1>Bestehe deine<br><em class="nowrap">Heilpraktiker-Prüfung.</em><br>Mit der App, die <em>alles</em> kann.</h1>
   <p><strong>5.000+ echte Prüfungsfragen</strong> · KI-Coach 24/7 · Mündliche-Prüfung-Simulator · Anamnese-Trainer · Tagescoach mit Streak — direkt auf dein Handy.</p>
 </section>
 
