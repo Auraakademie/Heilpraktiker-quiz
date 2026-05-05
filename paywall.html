@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AURA App — Heilpraktiker-Prüfung bestehen</title>
+<title>AURA HP Prüfungstrainer App — Bestehe deine Heilpraktiker-Prüfung</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -21,6 +21,7 @@
     --gold-light:#D4A85A;
     --gold-bg:   #F7EED9;
     --gold-border: rgba(184,138,62,0.3);
+    --green:     #10A36B;
   }
 
   body {
@@ -29,21 +30,23 @@
     color: var(--ink);
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   .serif { font-family: 'Fraunces', Georgia, serif; }
+  em { font-style: italic; color: var(--gold); }
 
   /* ── HEADER ── */
   header {
     text-align: center;
-    padding: 32px 20px 20px;
+    padding: 28px 20px 12px;
   }
   .logo {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-family: 'Fraunces', serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--ink);
     letter-spacing: -0.3px;
@@ -64,34 +67,36 @@
     color: #7D5D26;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
   /* ── HERO ── */
   .hero {
     text-align: center;
-    padding: 40px 20px 20px;
-    max-width: 720px;
+    padding: 30px 20px 10px;
+    max-width: 760px;
     margin: 0 auto;
     position: relative;
   }
   .hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 50%;
+    top: -40px; left: 50%;
     transform: translateX(-50%);
-    width: 600px; height: 300px;
-    background: radial-gradient(ellipse at 50% 0%, rgba(184,138,62,0.12) 0%, transparent 70%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(184,138,62,0.18) 0%, transparent 70%);
     pointer-events: none;
+    z-index: 0;
   }
+  .hero > * { position: relative; z-index: 1; }
   .hero h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(36px, 7vw, 58px);
+    font-size: clamp(34px, 6.5vw, 60px);
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.08;
     letter-spacing: -0.02em;
     color: var(--ink);
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
   .hero h1 em {
     font-style: italic;
@@ -102,22 +107,100 @@
     font-weight: 300;
     color: var(--ink-soft);
     line-height: 1.6;
-    max-width: 540px;
-    margin: 0 auto 32px;
+    max-width: 560px;
+    margin: 0 auto 28px;
   }
+  .hero p strong { color: var(--ink); font-weight: 600; }
 
-  /* ── SOCIAL PROOF ── */
-  .social-proof {
+  /* ── SOCIAL PROOF / STATS BAND ── */
+  .stats-band {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 40px;
-    font-size: 13px;
-    color: var(--ink-mute);
-    font-weight: 500;
+    flex-wrap: wrap;
+    gap: 28px;
+    padding: 16px 20px;
+    margin: 0 auto 40px;
+    max-width: 720px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
   }
-  .stars { color: var(--gold); letter-spacing: 1px; }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 4px;
+  }
+
+  /* ── SCREENSHOTS GALLERY ── */
+  .screens {
+    max-width: 1100px;
+    margin: 20px auto 60px;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .screens-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 24px;
+    perspective: 1400px;
+    margin-bottom: 28px;
+  }
+  .phone {
+    border-radius: 38px;
+    border: 8px solid #1a1d2a;
+    box-shadow: 0 30px 80px rgba(28,31,42,0.18), 0 0 0 1.5px rgba(184,138,62,0.3);
+    overflow: hidden;
+    background: #000;
+    flex-shrink: 0;
+  }
+  .phone img { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .phone-side {
+    width: 200px;
+    height: 410px;
+    opacity: 0.92;
+  }
+  .phone-side.left  { transform: rotateY(14deg)  translateX(8px); }
+  .phone-side.right { transform: rotateY(-14deg) translateX(-8px); }
+  .phone-center {
+    width: 260px;
+    height: 530px;
+    z-index: 2;
+    box-shadow: 0 40px 100px rgba(28,31,42,0.25), 0 0 0 2px rgba(184,138,62,0.5);
+  }
+  .phone-cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+  .phone-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (max-width: 800px) {
+    .phone-side { width: 150px; height: 308px; }
+    .phone-center { width: 200px; height: 410px; }
+    .screens-row { gap: 12px; }
+  }
+  @media (max-width: 540px) {
+    .screens-row { flex-direction: column; gap: 24px; align-items: center; }
+    .phone-side, .phone-center { width: 240px; height: 490px; transform: none; opacity: 1; }
+  }
 
   /* ── COUNTDOWN ── */
   .countdown-wrap {
@@ -150,7 +233,6 @@
     min-width: 90px;
     text-align: center;
   }
-  .countdown-sep { color: rgba(255,255,255,0.3); font-size: 24px; }
   .countdown-desc {
     font-size: 12px;
     color: rgba(255,255,255,0.5);
@@ -159,7 +241,7 @@
 
   /* ── PRICING ── */
   .pricing {
-    max-width: 780px;
+    max-width: 820px;
     margin: 0 auto;
     padding: 0 20px 60px;
   }
@@ -179,7 +261,6 @@
     border-radius: 24px;
     padding: 28px;
     transition: all 0.3s;
-    cursor: pointer;
     position: relative;
   }
   .plan:hover {
@@ -238,7 +319,7 @@
   .plan-period {
     font-size: 13px;
     color: var(--ink-soft);
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
   .plan-per-day {
     font-size: 12px;
@@ -314,51 +395,266 @@
 
   /* ── FEATURES ── */
   .features {
-    max-width: 780px;
-    margin: 0 auto 60px;
+    max-width: 980px;
+    margin: 20px auto 60px;
     padding: 0 20px;
+  }
+  .section-tag {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
   }
   .features-title {
     text-align: center;
     font-family: 'Fraunces', serif;
-    font-size: 28px;
+    font-size: clamp(28px, 4vw, 40px);
     font-weight: 400;
     color: var(--ink);
-    margin-bottom: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 14px;
   }
   .features-title em { font-style: italic; color: var(--gold); }
+  .features-sub {
+    text-align: center;
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 auto 40px;
+  }
   .features-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 14px;
   }
-  @media (max-width: 500px) {
+  @media (max-width: 700px) {
     .features-grid { grid-template-columns: 1fr; }
   }
   .feature-item {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 16px;
+    gap: 14px;
+    padding: 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    transition: all 0.3s;
+  }
+  .feature-item:hover {
+    border-color: var(--gold-border);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(28,31,42,0.06);
+  }
+  .feature-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .feature-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .feature-item p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* ── COMPARISON ── */
+  .compare {
+    max-width: 880px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+  }
+  .compare-table {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-row:last-child { border-bottom: 0; }
+  .compare-row > div { padding: 16px 20px; font-size: 14px; }
+  .compare-row.head > div {
+    background: var(--bg-soft);
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .compare-row.head > div:nth-child(2) { color: var(--gold); }
+  .compare-feat { color: var(--ink-soft); }
+  .compare-cell { text-align: center; font-weight: 600; }
+  .compare-yes { color: var(--green); font-size: 18px; }
+  .compare-no  { color: var(--ink-mute); font-size: 16px; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    max-width: 1080px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+  }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  @media (max-width: 800px) { .testi-grid { grid-template-columns: 1fr; } }
+  .testi {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+  }
+  .testi-stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
+  .testi-quote {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .testi-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--gold-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .testi-name { font-weight: 600; color: var(--ink); }
+  .testi-role { font-size: 11px; color: var(--ink-mute); }
+
+  /* ── TRUST BAND ── */
+  .trust-band {
+    background: var(--bg-soft);
+    padding: 32px 20px;
+    margin-bottom: 60px;
+  }
+  .trust-row {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .trust-icon {
+    width: 32px; height: 32px;
+    background: var(--gold-bg);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+    font-size: 16px;
+  }
+
+  /* ── FAQ ── */
+  .faq {
+    max-width: 760px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+  }
+  .faq-item {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
   }
-  .feature-icon {
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-  .feature-item h4 {
-    font-size: 14px;
+  .faq-q {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-weight: 600;
     color: var(--ink);
-    margin-bottom: 3px;
+    font-size: 15px;
   }
-  .feature-item p {
-    font-size: 12px;
-    color: var(--ink-mute);
-    line-height: 1.5;
+  .faq-q::after { content: '+'; color: var(--gold); font-size: 22px; transition: transform 0.2s; }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, margin 0.3s ease;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
   }
+  .faq-item.open .faq-a { max-height: 240px; margin-top: 10px; }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    background: var(--ink);
+    color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(184,138,62,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .final-cta > * { position: relative; z-index: 1; }
+  .final-cta h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 4.5vw, 44px);
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 16px;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .final-cta h2 em { font-style: italic; color: var(--gold-light); }
+  .final-cta p { color: rgba(255,255,255,0.7); margin-bottom: 28px; font-size: 16px; }
+  .final-cta .btn {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    padding: 18px 40px;
+    border-radius: 100px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 12px 40px rgba(184,138,62,0.4);
+    transition: all 0.3s;
+  }
+  .final-cta .btn:hover { background: var(--gold-light); transform: translateY(-2px); }
 
   /* ── FOOTER ── */
   footer {
@@ -376,23 +672,56 @@
 
 <!-- Header -->
 <header>
-  <div class="logo">✦ <span>AURA</span> Heilpraktiker App</div>
+  <div class="logo">✦ <span>AURA</span> HP Prüfungstrainer</div>
 </header>
 
 <!-- Hero -->
 <section class="hero">
-  <div class="badge">✦ 7 Tage kostenlos testen</div>
-  <h1>Deine Heilpraktiker-Prüfung.<br>Mit <em>KI-Coaching</em> bestehen.</h1>
-  <p>5.000+ Originalfragen, KI-Anamnese, Meditationen & täglicher Lernplan — alles in einer App.</p>
-  <div class="social-proof">
-    <span class="stars">★★★★★</span>
-    <span>Von über 800 Heilpraktiker-Anwärterinnen genutzt</span>
+  <div class="badge">✦ TestFlight Beta · Frühbucher-Preis</div>
+  <h1>Bestehe deine <em>Heilpraktiker-Prüfung</em>.<br>Mit der App, die <em>alles</em> kann.</h1>
+  <p><strong>5.000+ echte Prüfungsfragen</strong> · KI-Coach 24/7 · Mündliche-Prüfung-Simulator · Anamnese-Trainer · Tagescoach mit Streak — direkt auf dein iPhone.</p>
+</section>
+
+<!-- Stats Band -->
+<div class="stats-band">
+  <div class="stat"><div class="stat-num">5.000+</div><div class="stat-label">Prüfungsfragen</div></div>
+  <div class="stat"><div class="stat-num">16</div><div class="stat-label">Themengebiete</div></div>
+  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">KI-Coach</div></div>
+  <div class="stat"><div class="stat-num">7</div><div class="stat-label">Tage gratis</div></div>
+</div>
+
+<!-- Screenshots Gallery -->
+<section class="screens">
+  <div class="section-tag">✦ Live aus der App</div>
+  <h2 class="features-title" style="margin-bottom:30px;">So sieht <em>deine Vorbereitung</em> aus</h2>
+
+  <div class="screens-row">
+    <div class="phone-col">
+      <div class="phone phone-side left">
+        <img src="assets/app-screens/02-aura-chat.jpg" alt="AURA KI-Chat — frag alles zur HP-Prüfung" loading="lazy">
+      </div>
+      <div class="phone-cap">🤖 KI-Coach</div>
+    </div>
+
+    <div class="phone-col">
+      <div class="phone phone-center">
+        <img src="assets/app-screens/01-home.jpg" alt="AURA Dashboard — 168 Tage bis HP-Prüfung, Tagesplan, Streak" loading="lazy">
+      </div>
+      <div class="phone-cap" style="color:var(--ink);font-size:13px;">📱 Dein Plan · Dein Countdown</div>
+    </div>
+
+    <div class="phone-col">
+      <div class="phone phone-side right">
+        <img src="assets/app-screens/03-karteikarten.jpg" alt="AURA Karteikarten — KI-generiert zu jedem Thema" loading="lazy">
+      </div>
+      <div class="phone-cap">🃏 KI-Karteikarten</div>
+    </div>
   </div>
 </section>
 
 <!-- Countdown -->
 <div class="countdown-wrap">
-  <div class="countdown-label">Angebot endet in</div>
+  <div class="countdown-label">Frühbucher-Preis endet in</div>
   <div class="countdown">
     <div>
       <div class="countdown-time" id="timer">14:59</div>
@@ -407,21 +736,23 @@
 
     <!-- Jahresabo (featured) -->
     <div class="plan featured">
-      <div class="plan-badge">✦ Bestes Angebot · Spare 50%</div>
+      <div class="plan-badge">⭐ Bestes Angebot · Spare 50%</div>
       <div class="plan-name">Jahresplan</div>
       <div class="plan-price-orig">179€ / Jahr</div>
       <div class="plan-price"><sup>€</sup>89</div>
       <div class="plan-period">pro Jahr · einmalige Zahlung</div>
       <div class="plan-per-day">= nur 0,24€ pro Tag</div>
       <ul class="plan-features">
-        <li>Unbegrenzte Originalprüfungen 2002–2026</li>
+        <li><strong>5.000+ Prüfungsfragen</strong> · alle 16 Themen</li>
+        <li>KI-Coach (Frag AURA) — 24/7</li>
+        <li>Mündliche Prüfung Simulator</li>
         <li>KI-Anamnese mit Sprachfunktion</li>
-        <li>7 geführte Meditationen</li>
-        <li>Täglicher Lernplan & Streak</li>
+        <li>KI-Karteikarten zu jedem Thema</li>
+        <li>Tagescoach · Streak · Lernplan</li>
         <li>Alle zukünftigen Updates inklusive</li>
       </ul>
       <a href="THRIVECART_JAHRES_LINK" class="btn-plan btn-plan-primary">
-        Jetzt starten — 7 Tage gratis →
+        7 Tage gratis testen →
       </a>
     </div>
 
@@ -431,12 +762,14 @@
       <div class="plan-price-orig">24,99€ / Monat</div>
       <div class="plan-price"><sup>€</sup>14<span style="font-size:22px">,99</span></div>
       <div class="plan-period">pro Monat · monatlich kündbar</div>
-      <div class="plan-per-day" style="color: var(--ink-mute);">&nbsp;</div>
+      <div class="plan-per-day" style="color:var(--ink-mute);">&nbsp;</div>
       <ul class="plan-features">
-        <li>Unbegrenzte Originalprüfungen 2002–2026</li>
+        <li><strong>5.000+ Prüfungsfragen</strong> · alle 16 Themen</li>
+        <li>KI-Coach (Frag AURA) — 24/7</li>
+        <li>Mündliche Prüfung Simulator</li>
         <li>KI-Anamnese mit Sprachfunktion</li>
-        <li>7 geführte Meditationen</li>
-        <li>Täglicher Lernplan & Streak</li>
+        <li>KI-Karteikarten zu jedem Thema</li>
+        <li>Tagescoach · Streak · Lernplan</li>
         <li>Jederzeit kündbar</li>
       </ul>
       <a href="THRIVECART_MONAT_LINK" class="btn-plan btn-plan-secondary">
@@ -447,43 +780,212 @@
   </div>
 
   <p class="trial-note">
-    <strong>7 Tage kostenlos.</strong> Kein Risiko — kündige jederzeit vor Ablauf der Testphase.
+    <strong>7 Tage kostenlos.</strong> Kein Risiko · Erste Abrechnung erst nach Trial · Jederzeit kündbar.
   </p>
 </section>
 
 <!-- Features -->
 <section class="features">
+  <div class="section-tag">✦ Was die App kann</div>
   <h2 class="features-title">Alles was du für die <em>Prüfung</em> brauchst</h2>
+  <p class="features-sub">Schriftlich, mündlich, Anamnese, Mindset — die einzige App im DACH-Raum die alle drei Prüfungsteile abdeckt. Mit KI die mit dir lernt.</p>
+
   <div class="features-grid">
     <div class="feature-item">
       <div class="feature-icon">📋</div>
       <div>
-        <h4>Originalprüfungen 2002–2026</h4>
-        <p>5.000+ echte Prüfungsfragen aus allen Jahrgängen</p>
+        <h4>5.000+ Originalprüfungsfragen</h4>
+        <p>Echte Fragen aus 24 Jahren Heilpraktiker-Prüfung. Alle 16 Themengebiete. Mit ausführlichen KI-Erklärungen zu jeder Antwort.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🤖</div>
+      <div>
+        <h4>Frag AURA — Dein KI-Coach</h4>
+        <p>Stell deiner persönlichen KI alle Prüfungsfragen — DDs, Pathomechanismen, Pharmakologie, IfSG. 24/7 verfügbar, immer geduldig.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎤</div>
+      <div>
+        <h4>Mündliche Prüfung Simulator</h4>
+        <p>Echte Amtsarzt-Fragen mit Antwort-Coach. Strukturiere deine Antworten wie ein Profi. Nimm dich selbst auf und höre dir zu.</p>
       </div>
     </div>
     <div class="feature-item">
       <div class="feature-icon">🩺</div>
       <div>
-        <h4>KI-Anamnese Training</h4>
-        <p>Unbegrenzt zufällige Patientenfälle mit Sprachsimulation</p>
+        <h4>KI-Anamnese-Trainer</h4>
+        <p>Unbegrenzte zufällige Patientenfälle mit Sprachsimulation. Übe Patientengespräche bis sie sitzen.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🃏</div>
+      <div>
+        <h4>KI-Karteikarten zu jedem Thema</h4>
+        <p>Tippe ein Thema ein — die KI generiert sofort Lernkarten dazu. Schilddrüse, Schock, Herzinsuffizienz... alles in Sekunden.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📊</div>
+      <div>
+        <h4>Schwachstellen-Analyse</h4>
+        <p>Die App weiß was du noch nicht kannst — und zeigt es dir genau dann wieder, wenn es zählt. Spaced Repetition mit KI.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔥</div>
+      <div>
+        <h4>Tagescoach mit Streak</h4>
+        <p>Täglicher Lernplan + Push-Erinnerungen + Streak-Tracking. Bis zur Prüfung kein Tag mehr ohne Lernen.</p>
       </div>
     </div>
     <div class="feature-item">
       <div class="feature-icon">✨</div>
       <div>
-        <h4>Meditationen & Mindset</h4>
-        <p>Prüfungsangst lösen, Fokus stärken, besser schlafen</p>
-      </div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">📈</div>
-      <div>
-        <h4>Intelligenter Lernplan</h4>
-        <p>Tägliche Ziele, Streak-Tracking, Schwächenanalyse</p>
+        <h4>Mindset & Prüfungsangst</h4>
+        <p>Geführte Meditationen, Visualisierungen und mentale Vorbereitung. Geh entspannt und fokussiert in deine Prüfung.</p>
       </div>
     </div>
   </div>
+</section>
+
+<!-- Comparison -->
+<section class="compare">
+  <div class="section-tag">✦ Im Vergleich</div>
+  <h2 class="features-title" style="margin-bottom:30px;">AURA vs. <em>Lehrbücher & Co.</em></h2>
+
+  <div class="compare-table">
+    <div class="compare-row head">
+      <div>Was du brauchst</div>
+      <div>AURA</div>
+      <div>Lehrbücher</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">5.000+ Prüfungsfragen</div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">Mündliche Prüfung Simulator</div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+      <div class="compare-cell"><span class="compare-no">—</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">KI-Anamnese-Trainer</div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+      <div class="compare-cell"><span class="compare-no">—</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">KI-Coach 24/7</div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+      <div class="compare-cell"><span class="compare-no">—</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">Mobil lernen (offline)</div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+      <div class="compare-cell"><span class="compare-no">—</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">Mindset & Prüfungsangst</div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+      <div class="compare-cell"><span class="compare-no">—</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">Schwachstellen-Analyse (KI)</div>
+      <div class="compare-cell"><span class="compare-yes">✓</span></div>
+      <div class="compare-cell"><span class="compare-no">—</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-feat">Preis pro Jahr</div>
+      <div class="compare-cell" style="color:var(--gold);font-weight:700;">89€</div>
+      <div class="compare-cell" style="color:var(--ink-mute);">120-300€</div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <div class="section-tag">✦ Von Anwärterinnen für Anwärterinnen</div>
+  <h2 class="features-title">Was unsere <em>Beta-Tester</em> sagen</h2>
+
+  <div class="testi-grid">
+    <div class="testi">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"Endlich eine App die nicht nur Fragen abfragt — die KI erklärt mir warum die Antwort richtig ist. Das hilft mir 10x mehr als ein Lehrbuch."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">S</div>
+        <div><div class="testi-name">Sandra M.</div><div class="testi-role">Anwärterin · München</div></div>
+      </div>
+    </div>
+    <div class="testi">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"Der mündliche Prüfungs-Simulator ist Gold wert. Ich gehe jetzt viel entspannter in die Prüfung — ich weiß was auf mich zukommt."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">N</div>
+        <div><div class="testi-name">Nadine K.</div><div class="testi-role">Anwärterin · Hamburg</div></div>
+      </div>
+    </div>
+    <div class="testi">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"Der Tagescoach ist perfekt — 15 Min auf dem Weg zur Arbeit, Streak hält mich am Ball. So macht Lernen tatsächlich Spaß."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">L</div>
+        <div><div class="testi-name">Lisa B.</div><div class="testi-role">Anwärterin · Wien</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Band -->
+<div class="trust-band">
+  <div class="trust-row">
+    <div class="trust-item"><div class="trust-icon">🇩🇪</div>Made in Deutschland</div>
+    <div class="trust-item"><div class="trust-icon">🔒</div>DSGVO-konform · Daten in EU</div>
+    <div class="trust-item"><div class="trust-icon">👩‍⚕️</div>Von Heilpraktikerinnen entwickelt</div>
+    <div class="trust-item"><div class="trust-icon">↩️</div>Jederzeit kündbar</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="section-tag">✦ Häufige Fragen</div>
+  <h2 class="features-title" style="margin-bottom:30px;">Was du <em>wissen</em> solltest</h2>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Was passiert nach den 7 Tagen?</div>
+    <div class="faq-a">Wenn du innerhalb der Testphase nichts unternimmst, wird dein gewähltes Abo automatisch fortgesetzt (Jahres- oder Monatsplan). Du kannst jederzeit vorher in deinen Account-Einstellungen kündigen — null Risiko.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Bekomme ich wirklich alle Features in der Testphase?</div>
+    <div class="faq-a">Ja. Alle 5.000+ Fragen, KI-Coach, Mündlich-Simulator, Anamnese-Trainer, Karteikarten, Streak — alles freigeschaltet ab Tag 1. Keine Limitierung.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Muss ich kündigen wenn ich's nicht weiternutzen will?</div>
+    <div class="faq-a">Ja, in den Account-Einstellungen oder direkt im App Store. Geht in 2 Klicks. Wir senden dir 2 Tage vor Ablauf der Testphase eine Erinnerung per Email.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Auf welchen Geräten läuft die App?</div>
+    <div class="faq-a">Aktuell iOS (iPhone & iPad). Android-Version ist in Entwicklung — sobald sie fertig ist, bekommst du als Abonnent kostenlosen Zugang.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Wie aktuell sind die Prüfungsfragen?</div>
+    <div class="faq-a">Wir aktualisieren die Datenbank kontinuierlich. Aktuell hast du Zugriff auf 5.000+ echte Prüfungsfragen aus den Jahrgängen 2002 bis 2026 — plus KI-generierte Übungsfragen zu jedem Schwerpunkt.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Bekommen Beta-Tester Sonderkonditionen?</div>
+    <div class="faq-a">Ja. Beta-Tester behalten den Frühbucher-Preis (89€/Jahr statt 179€) für die gesamte Laufzeit ihres Abos — auch nach dem offiziellen Launch. Solange du dabei bleibst.</div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+  <h2>Bereit für deine <em>Prüfung</em>?</h2>
+  <p>7 Tage gratis testen · Kein Risiko · Frühbucher-Preis sichern</p>
+  <a href="THRIVECART_JAHRES_LINK" class="btn">
+    Jetzt 7 Tage gratis starten →
+  </a>
+  <p style="font-size:12px;margin-top:24px;color:rgba(255,255,255,0.4);">⭐ Jahresplan · 89€/Jahr nach Trial · Jederzeit kündbar</p>
 </section>
 
 <!-- Footer -->
@@ -491,7 +993,7 @@
   <p>
     <a href="https://auraakademie.de/impressum">Impressum</a> ·
     <a href="https://auraakademie.de/datenschutz">Datenschutz</a> ·
-    &copy; 2026 Aura Global Digital LLC
+    &copy; 2026 Aura Global Digital LLC · Dubai
   </p>
 </footer>
 
