@@ -269,141 +269,72 @@ input::placeholder { color: var(--ink-mute); }
           <p style="font-size:14px;color:rgba(255,255,255,0.65);line-height:1.6;max-width:380px;margin:0 auto;">Die komplette App für deine Prüfungsvorbereitung — als iOS App auf deinem iPhone.</p>
         </div>
 
-        <!-- 3-Phone Showcase -->
+        <!-- REAL APP SCREENSHOTS — TestFlight -->
         <style>
-          .phone-frame { background:linear-gradient(180deg,#0a0d18 0%,#1a1d2a 100%); border-radius:32px; border:7px solid #1a1d2a; box-shadow:0 30px 80px rgba(0,0,0,0.5),0 0 0 1.5px rgba(184,138,62,0.3); position:relative; overflow:hidden; flex-shrink:0; }
-          .phone-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:60px; height:14px; background:#000; border-radius:0 0 10px 10px; z-index:2; }
-          .phone-screen { padding:24px 10px 10px; height:100%; display:flex; flex-direction:column; gap:6px; }
-          .ph-card { border-radius:8px; padding:8px; }
-          .ph-cap { font-size:7px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:3px; }
-          .ph-bigtxt { font-size:11px; color:#fff; font-weight:600; line-height:1.3; }
-          .ph-smtxt { font-size:9px; color:rgba(255,255,255,0.7); }
+          .phone-frame-real { border-radius:36px; border:7px solid #1a1d2a; box-shadow:0 30px 80px rgba(0,0,0,0.55),0 0 0 1.5px rgba(184,138,62,0.35); overflow:hidden; flex-shrink:0; background:#000; position:relative; }
+          .phone-frame-real img { width:100%; height:100%; display:block; object-fit:cover; }
+          .phone-caption { font-size:10px; font-weight:700; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; text-align:center; margin-top:14px; opacity:0.9; }
           .annot { font-size:10px; font-weight:700; color:var(--gold-light); letter-spacing:1.5px; text-transform:uppercase; padding:4px 10px; background:rgba(184,138,62,0.15); border:1px solid rgba(184,138,62,0.3); border-radius:100px; white-space:nowrap; }
-          @media (max-width: 600px) {
-            .phone-row { gap:8px !important; }
-            .phone-side { display:none; }
+          @media (max-width: 720px) {
+            .phone-row { gap:10px !important; }
+            .phone-side-real { width:130px !important; height:265px !important; }
+            .phone-center-real { width:170px !important; height:345px !important; }
+          }
+          @media (max-width: 480px) {
+            .phone-row { flex-direction:column !important; gap:18px !important; }
+            .phone-side-real, .phone-center-real { width:240px !important; height:auto !important; transform:none !important; opacity:1 !important; }
+            .phone-frame-real img { height:auto; }
           }
         </style>
 
         <!-- Hero Headline -->
-        <div style="text-align:center;margin-bottom:18px;">
-          <div style="font-size:11px;color:var(--gold-light);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px;">✦ Echte App-Screens</div>
-          <div class="serif" style="font-size:20px;font-weight:400;color:#fff;letter-spacing:-0.01em;">So sieht <em style="color:var(--gold-light);font-style:italic;">deine Vorbereitung</em> aus</div>
+        <div style="text-align:center;margin-bottom:22px;">
+          <div style="font-size:11px;color:var(--gold-light);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px;">✦ Echte App-Screens · TestFlight</div>
+          <div class="serif" style="font-size:22px;font-weight:400;color:#fff;letter-spacing:-0.01em;line-height:1.25;">So sieht <em style="color:var(--gold-light);font-style:italic;">deine Vorbereitung</em> aus</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:8px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.5;">Live aus der AURA App — Dashboard mit Countdown, KI-Coach und KI-generierte Karteikarten zu jedem Thema.</div>
         </div>
 
-        <!-- 3 Phones Row -->
-        <div class="phone-row" style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:30px;perspective:1200px;">
+        <!-- 3 Real Phone Screenshots -->
+        <div class="phone-row" style="display:flex;align-items:flex-end;justify-content:center;gap:18px;margin-bottom:18px;perspective:1400px;">
 
-          <!-- LEFT: Quiz mit KI-Feedback -->
-          <div class="phone-frame phone-side" style="width:160px;height:330px;transform:rotateY(15deg) translateX(8px);opacity:0.85;">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <div style="font-size:8px;color:rgba(212,168,90,0.7);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center;">Frage 12 / 60</div>
-              <div style="height:2px;background:rgba(255,255,255,0.1);border-radius:100px;overflow:hidden;margin-bottom:4px;"><div style="width:20%;height:100%;background:var(--gold-light);"></div></div>
-              <div class="ph-bigtxt" style="margin-bottom:4px;">Welche Symptome zeigt eine akute Pankreatitis?</div>
-              <div style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);border-radius:8px;padding:6px;">
-                <div style="font-size:8px;color:#10b981;font-weight:700;">✓ B · Gürtelförmiger Oberbauchschmerz</div>
-              </div>
-              <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:7px;border-left:2px solid var(--gold-light);">
-                <div class="ph-cap" style="color:var(--gold-light);">KI-Erklärung</div>
-                <div style="font-size:8px;color:rgba(255,255,255,0.85);line-height:1.4;">Der Schmerz strahlt typisch in den Rücken aus. Merksatz: "Pankreatitis = Pizza-Schmerz im Rücken"</div>
-              </div>
-              <div style="background:rgba(184,138,62,0.15);border-radius:8px;padding:6px;text-align:center;margin-top:auto;">
-                <div style="font-size:9px;color:#fff;font-weight:600;">Nächste Frage →</div>
-              </div>
+          <!-- LEFT: Frag AURA Chat -->
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="phone-frame-real phone-side-real" style="width:170px;height:345px;transform:rotateY(14deg) translateX(8px);opacity:0.92;">
+              <img src="assets/app-screens/02-aura-chat.jpg" alt="AURA KI-Chat — frag alles zur HP-Prüfung" loading="lazy">
             </div>
+            <div class="phone-caption">🤖 Frag AURA · KI-Coach</div>
           </div>
 
-          <!-- CENTER: Dashboard -->
-          <div class="phone-frame" style="width:200px;height:410px;z-index:2;">
-            <div class="phone-notch" style="width:70px;height:16px;"></div>
-            <div class="phone-screen" style="padding:30px 12px 12px;gap:8px;">
-              <div style="font-size:9px;color:rgba(212,168,90,0.8);text-transform:uppercase;letter-spacing:2px;font-weight:700;text-align:center;">✦ AURA</div>
-              <div style="font-size:14px;color:#fff;font-weight:600;letter-spacing:-0.01em;">Hi Sabine 👋</div>
-
-              <div class="ph-card" style="background:rgba(184,138,62,0.18);border:1px solid rgba(184,138,62,0.35);">
-                <div class="ph-cap" style="color:var(--gold-light);">Heute</div>
-                <div class="ph-bigtxt">🎯 12 Fragen warten auf dich</div>
-                <div style="margin-top:5px;height:3px;background:rgba(255,255,255,0.1);border-radius:100px;overflow:hidden;"><div style="width:60%;height:100%;background:var(--gold-light);"></div></div>
-                <div style="font-size:8px;color:rgba(255,255,255,0.5);margin-top:4px;">7 von 12 erledigt</div>
-              </div>
-
-              <div style="display:flex;gap:6px;">
-                <div class="ph-card" style="background:rgba(255,255,255,0.05);flex:1;text-align:center;">
-                  <div style="font-size:18px;line-height:1;">🔥</div>
-                  <div style="font-size:14px;color:#fff;font-weight:700;margin-top:2px;">14</div>
-                  <div style="font-size:7px;color:rgba(255,255,255,0.5);">Tage Streak</div>
-                </div>
-                <div class="ph-card" style="background:rgba(255,255,255,0.05);flex:1;text-align:center;">
-                  <div style="font-size:18px;line-height:1;">📊</div>
-                  <div style="font-size:14px;color:#fff;font-weight:700;margin-top:2px;">73%</div>
-                  <div style="font-size:7px;color:rgba(255,255,255,0.5);">Trefferquote</div>
-                </div>
-              </div>
-
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:2px;">
-                <div class="ph-card" style="background:rgba(255,255,255,0.04);text-align:center;padding:9px 6px;">
-                  <div style="font-size:14px;">🩺</div>
-                  <div style="font-size:7px;color:rgba(255,255,255,0.7);margin-top:2px;font-weight:600;">Anamnese</div>
-                </div>
-                <div class="ph-card" style="background:rgba(255,255,255,0.04);text-align:center;padding:9px 6px;">
-                  <div style="font-size:14px;">🎤</div>
-                  <div style="font-size:7px;color:rgba(255,255,255,0.7);margin-top:2px;font-weight:600;">Mündlich</div>
-                </div>
-                <div class="ph-card" style="background:rgba(255,255,255,0.04);text-align:center;padding:9px 6px;">
-                  <div style="font-size:14px;">🧠</div>
-                  <div style="font-size:7px;color:rgba(255,255,255,0.7);margin-top:2px;font-weight:600;">Mindset</div>
-                </div>
-                <div class="ph-card" style="background:rgba(255,255,255,0.04);text-align:center;padding:9px 6px;">
-                  <div style="font-size:14px;">📋</div>
-                  <div style="font-size:7px;color:rgba(255,255,255,0.7);margin-top:2px;font-weight:600;">Original</div>
-                </div>
-              </div>
-
-              <div class="ph-card" style="background:rgba(184,138,62,0.2);border:1px solid rgba(184,138,62,0.3);text-align:center;margin-top:auto;">
-                <div class="ph-cap" style="color:var(--gold-light);text-align:left;">⏱️ Original Prüfung</div>
-                <div class="ph-bigtxt">Simulation starten →</div>
-              </div>
+          <!-- CENTER: Home / Dashboard -->
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="phone-frame-real phone-center-real" style="width:230px;height:475px;z-index:2;box-shadow:0 40px 100px rgba(0,0,0,0.6),0 0 0 2px rgba(184,138,62,0.5);">
+              <img src="assets/app-screens/01-home.jpg" alt="AURA Dashboard — 168 Tage bis HP-Prüfung, Tagesplan, Tagesfrage" loading="lazy">
             </div>
+            <div class="phone-caption" style="font-size:11px;color:#fff;opacity:1;">📱 Dein Plan · Dein Countdown</div>
           </div>
 
-          <!-- RIGHT: Mündliche Prüfung -->
-          <div class="phone-frame phone-side" style="width:160px;height:330px;transform:rotateY(-15deg) translateX(-8px);opacity:0.85;">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <div style="font-size:8px;color:rgba(212,168,90,0.7);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center;">🎤 Mündliche Prüfung</div>
-              <div class="ph-card" style="background:rgba(255,255,255,0.05);">
-                <div class="ph-cap">Amtsarzt-Frage</div>
-                <div class="ph-bigtxt" style="font-size:10px;">"Welche Erkrankungen sind nach IfSG meldepflichtig?"</div>
-              </div>
-              <div class="ph-card" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);">
-                <div class="ph-cap" style="color:#60a5fa;">⏱️ Antwort-Coach</div>
-                <div style="font-size:8px;color:rgba(255,255,255,0.85);line-height:1.4;">Strukturiere: 1. Verdacht 2. Erkrankung 3. Tod 4. Erreger</div>
-              </div>
-              <div class="ph-card" style="background:rgba(255,255,255,0.04);">
-                <div style="font-size:7px;color:rgba(255,255,255,0.5);margin-bottom:2px;">Häufige Folgefragen:</div>
-                <div style="font-size:8px;color:rgba(255,255,255,0.85);">• Wer meldet?</div>
-                <div style="font-size:8px;color:rgba(255,255,255,0.85);">• Innerhalb wieviel Stunden?</div>
-                <div style="font-size:8px;color:rgba(255,255,255,0.85);">• Beispiele § 6 / § 7?</div>
-              </div>
-              <div style="background:rgba(184,138,62,0.15);border-radius:8px;padding:6px;text-align:center;margin-top:auto;">
-                <div style="font-size:9px;color:#fff;font-weight:600;">🎙️ Antwort aufnehmen</div>
-              </div>
+          <!-- RIGHT: Karteikarten -->
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="phone-frame-real phone-side-real" style="width:170px;height:345px;transform:rotateY(-14deg) translateX(-8px);opacity:0.92;">
+              <img src="assets/app-screens/03-karteikarten.jpg" alt="AURA Karteikarten — KI-generiert zu jedem Thema" loading="lazy">
             </div>
+            <div class="phone-caption">🃏 KI-Karteikarten</div>
           </div>
         </div>
 
         <!-- Annotation Labels -->
-        <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px;">
-          <span class="annot">🎯 Tagesziel</span>
-          <span class="annot">🔥 Streak-Tracking</span>
-          <span class="annot">🤖 KI-Erklärungen</span>
-          <span class="annot">🎤 Mündlich-Coach</span>
-          <span class="annot">📊 Live-Statistik</span>
+        <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:24px 0 16px;">
+          <span class="annot">⏱️ Prüfungs-Countdown</span>
+          <span class="annot">🔥 Streak</span>
+          <span class="annot">📋 Tagesplan</span>
+          <span class="annot">🎤 Mündlich-Simulation</span>
+          <span class="annot">🤖 KI-Coach 24/7</span>
+          <span class="annot">🃏 KI-Karteikarten</span>
+          <span class="annot">📊 Lernfortschritt</span>
         </div>
 
-        <!-- Hint: Real screenshots coming -->
-        <div style="text-align:center;font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:16px;">📱 App ist aktuell in TestFlight Beta · Echte Screenshots folgen zum offiziellen Launch</div>
+        <!-- Hint -->
+        <div style="text-align:center;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:16px;">📱 Aktuell TestFlight Beta · iOS · Sichere dir den Frühbucher-Preis vor dem öffentlichen Launch</div>
 
         <!-- Features Section -->
         <div style="margin-bottom:24px;">
