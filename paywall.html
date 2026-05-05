@@ -262,7 +262,10 @@
     padding: 28px;
     transition: all 0.3s;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
+  .pricing-grid { align-items: stretch; }
   .plan:hover {
     transform: translateY(-4px);
     box-shadow: 0 24px 60px rgba(28,31,42,0.08);
@@ -334,6 +337,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex-grow: 1;
   }
   .plan-features li {
     display: flex;
@@ -770,7 +774,7 @@
         <li>KI-Anamnese mit Sprachfunktion</li>
         <li>KI-Karteikarten zu jedem Thema</li>
         <li>Tagescoach · Streak · Lernplan</li>
-        <li>Jederzeit kündbar</li>
+        <li>Alle zukünftigen Updates inklusive</li>
       </ul>
       <a href="THRIVECART_MONAT_LINK" class="btn-plan btn-plan-secondary">
         Monatlich starten →
