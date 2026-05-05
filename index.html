@@ -252,14 +252,136 @@ input::placeholder { color: var(--ink-mute); }
       <div id="category-breakdown" style="display:flex;flex-direction:column;gap:14px;"></div>
     </div>
 
-    <!-- EARLY BIRD -->
-    <div class="early-bird" style="margin-bottom:16px;">
-      <div style="position:relative;z-index:1;">
-        <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(184,138,62,0.2);border:1px solid rgba(212,168,90,0.4);border-radius:100px;font-size:11px;font-weight:700;color:var(--gold-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">🔥 Early Bird · Noch nicht öffentlich</span>
-        <h3 class="serif" style="font-size:24px;font-weight:400;color:#fff;letter-spacing:-0.01em;margin-bottom:8px;">AURA HP Prüfungstrainer App</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,0.65);margin-bottom:20px;line-height:1.6;">Die App ist noch in der Beta-Phase — sichere dir jetzt den Jahrespreis, bevor sie offiziell erscheint.</p>
+    <!-- BRIDGE: Das war nur ein Vorgeschmack -->
+    <div style="text-align:center;margin:36px 0 22px;padding:0 8px;">
+      <span class="badge" style="background:var(--ink);color:var(--gold-light);border-color:rgba(184,138,62,0.4);margin-bottom:14px;display:inline-flex;">✦ Es geht weiter</span>
+      <h2 class="serif" style="font-size:30px;font-weight:400;color:var(--ink);letter-spacing:-0.015em;margin-bottom:10px;line-height:1.15;">Das war erst <em style="color:var(--gold);font-style:italic;">der Anfang.</em></h2>
+      <p style="font-size:15px;color:var(--ink-soft);line-height:1.6;max-width:480px;margin:0 auto;">Du hast gerade <strong>60 Fragen</strong> gemacht. Die <strong>AURA HP Prüfungstrainer App</strong> bietet dir alles, was du wirklich brauchst, um die Prüfung zu bestehen — schriftlich <em style="color:var(--gold);font-style:italic;">und</em> mündlich.</p>
+    </div>
 
-        <!-- Pricing -->
+    <!-- EARLY BIRD - APP SHOWCASE -->
+    <div class="early-bird" style="margin-bottom:16px;padding:32px 24px;">
+      <div style="position:relative;z-index:1;">
+        <!-- Hero -->
+        <div style="text-align:center;margin-bottom:24px;">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(184,138,62,0.2);border:1px solid rgba(212,168,90,0.4);border-radius:100px;font-size:10px;font-weight:700;color:var(--gold-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;">🔥 Beta · Noch nicht öffentlich</span>
+          <h3 class="serif" style="font-size:30px;font-weight:400;color:#fff;letter-spacing:-0.015em;margin-bottom:8px;line-height:1.2;">AURA HP <em style="color:var(--gold-light);font-style:italic;">Prüfungstrainer</em></h3>
+          <p style="font-size:14px;color:rgba(255,255,255,0.65);line-height:1.6;max-width:380px;margin:0 auto;">Die komplette App für deine Prüfungsvorbereitung — als iOS App auf deinem iPhone.</p>
+        </div>
+
+        <!-- App Phone Mockup -->
+        <div style="display:flex;justify-content:center;margin-bottom:28px;">
+          <div style="width:200px;height:400px;background:linear-gradient(180deg,#0a0d18 0%,#1a1d2a 100%);border-radius:36px;border:8px solid #1a1d2a;box-shadow:0 30px 80px rgba(0,0,0,0.5),0 0 0 1.5px rgba(184,138,62,0.3);position:relative;overflow:hidden;">
+            <!-- Notch -->
+            <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:18px;background:#000;border-radius:0 0 14px 14px;z-index:2;"></div>
+            <!-- App Screen -->
+            <div style="padding:32px 14px 14px;height:100%;display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:9px;color:rgba(212,168,90,0.7);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center;margin-bottom:4px;">✦ AURA</div>
+              <div style="background:rgba(184,138,62,0.15);border:1px solid rgba(184,138,62,0.3);border-radius:10px;padding:10px;">
+                <div style="font-size:8px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Heute</div>
+                <div style="font-size:11px;color:#fff;font-weight:600;line-height:1.3;">🎯 12 Fragen warten</div>
+                <div style="margin-top:6px;height:3px;background:rgba(255,255,255,0.1);border-radius:100px;overflow:hidden;"><div style="width:60%;height:100%;background:var(--gold-light);"></div></div>
+              </div>
+              <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;">
+                <div style="font-size:8px;color:rgba(255,255,255,0.4);margin-bottom:3px;">🔥 Streak</div>
+                <div style="font-size:14px;color:#fff;font-weight:700;">14 Tage</div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center;">
+                  <div style="font-size:14px;">🩺</div>
+                  <div style="font-size:7px;color:rgba(255,255,255,0.6);margin-top:2px;">Anamnese</div>
+                </div>
+                <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center;">
+                  <div style="font-size:14px;">🎤</div>
+                  <div style="font-size:7px;color:rgba(255,255,255,0.6);margin-top:2px;">Mündlich</div>
+                </div>
+                <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center;">
+                  <div style="font-size:14px;">📊</div>
+                  <div style="font-size:7px;color:rgba(255,255,255,0.6);margin-top:2px;">Stats</div>
+                </div>
+              </div>
+              <div style="background:rgba(184,138,62,0.2);border-radius:10px;padding:9px;border:1px solid rgba(184,138,62,0.3);">
+                <div style="font-size:8px;color:rgba(212,168,90,0.8);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-weight:700;">⏱️ Original Prüfung</div>
+                <div style="font-size:10px;color:#fff;font-weight:600;">Simulation starten →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features Section -->
+        <div style="margin-bottom:24px;">
+          <div style="text-align:center;margin-bottom:16px;">
+            <div style="font-size:10px;color:var(--gold-light);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">✦ Was die App kann</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">📋</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">Original Prüfungssimulationen</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">Echte HP-Prüfungen unter realen Bedingungen — mit Zeitlimit, Bewertung und Detail-Auswertung.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">🩺</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">Anamnese-Trainer</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">Patientengespräche systematisch üben — Strukturen, Fragen, Differentialdiagnosen.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">🎤</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">Mündliche Prüfung simulieren</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">Realistische Prüfungssituationen mit den häufigsten Fragestellungen der Gesundheitsämter.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">🧠</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">Spaced Repetition</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">Die App weiß was du noch nicht kannst — und zeigt es dir genau dann wieder, wenn es zählt.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">📊</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">Schwachstellen-Analyse</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">Kategoriebasierte Auswertung — du siehst sofort wo du noch nachschärfen musst.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">🔥</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">Tages-Streak & Erinnerungen</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">Tägliche Push-Erinnerungen halten dich am Ball — bis zur Prüfung kein Tag mehr ohne Lernen.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">🎯</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">2.400+ Prüfungsfragen</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">Alle 16 Themengebiete der HP-Prüfung — mit ausführlichen Erklärungen zu jeder Antwort.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;">
+              <div style="font-size:24px;flex-shrink:0;line-height:1;">📱</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">Lernen wo du willst</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;">iPhone, iPad — auch offline. 5 Minuten Bahnfahrt? Reicht für 10 Fragen.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div style="height:1px;background:linear-gradient(90deg,transparent 0%,rgba(184,138,62,0.4) 50%,transparent 100%);margin:24px 0;"></div>
+
+        <!-- Pricing Header -->
+        <div style="text-align:center;margin-bottom:18px;">
+          <div style="font-size:10px;color:var(--gold-light);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px;">✦ Beta-Preis · Nur jetzt</div>
+          <div class="serif" style="font-size:22px;font-weight:400;color:#fff;letter-spacing:-0.01em;">Sichere dir den <em style="color:var(--gold-light);font-style:italic;">Frühbucher-Preis</em></div>
+        </div>
+
         <!-- Jahresabo -->
         <div style="background:rgba(255,255,255,0.06);border:1.5px solid rgba(184,138,62,0.5);border-radius:16px;padding:16px;margin-bottom:10px;position:relative;">
           <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);padding:4px 14px;background:var(--gold);border-radius:100px;font-size:10px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;">⭐ Bestes Angebot</div>
@@ -271,12 +393,13 @@ input::placeholder { color: var(--ink-mute); }
                 <span class="serif" style="font-size:36px;font-weight:400;color:#fff;">89€</span>
                 <span style="font-size:12px;color:rgba(255,255,255,0.45);">/Jahr</span>
               </div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px;">≈ 7,42€ pro Monat</div>
             </div>
             <div style="padding:7px 13px;background:rgba(184,138,62,0.3);border:1px solid rgba(212,168,90,0.4);border-radius:100px;font-size:12px;font-weight:700;color:var(--gold-light);white-space:nowrap;">SPARE 50%</div>
           </div>
         </div>
         <!-- Monatlich -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;margin-bottom:16px;">
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;margin-bottom:18px;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div>
               <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Monatlich</div>
@@ -290,18 +413,16 @@ input::placeholder { color: var(--ink-mute); }
           </div>
         </div>
 
-        <!-- Features -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
-          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">🩺 Anamnese Training</div>
-          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">📋 Original Prüfungen</div>
-          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">🎤 Mündliche Prüfung</div>
-          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;">📊 Lernfortschritt</div>
+        <!-- Trial Badge -->
+        <div style="text-align:center;margin-bottom:14px;padding:10px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:12px;">
+          <div style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:600;">✓ 7 Tage gratis testen · Kein Risiko</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">Erste Abrechnung erst nach Trial · Jederzeit kündbar</div>
         </div>
 
-        <a href="https://heilpraktiker-pruefungsfragen.io/paywall.html" target="_blank" style="display:block;width:100%;padding:16px;border-radius:100px;background:var(--gold);color:#fff;font-weight:700;font-size:15px;text-align:center;text-decoration:none;box-shadow:0 12px 40px rgba(184,138,62,0.35);transition:all 0.3s;" onmouseover="this.style.background='#D4A85A'" onmouseout="this.style.background='var(--gold)'">
+        <a href="https://heilpraktiker-pruefungsfragen.io/paywall.html" target="_blank" style="display:block;width:100%;padding:18px;border-radius:100px;background:var(--gold);color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none;box-shadow:0 12px 40px rgba(184,138,62,0.4);transition:all 0.3s;" onmouseover="this.style.background='#D4A85A';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--gold)';this.style.transform='translateY(0)'">
           7 Tage gratis testen →
         </a>
-        <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;">Kein Risiko · Kündigung jederzeit möglich · Preis steigt nach Launch</p>
+        <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.35);margin-top:12px;">Kein Risiko · Kündigung jederzeit · Preis steigt nach offiziellem Launch</p>
       </div>
     </div>
 
