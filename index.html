@@ -494,7 +494,7 @@ const EMAIL_AFTER  = 7;
 
 let questionQueue = [], currentIndex = 0, answers = [];
 let userName = '', multiSelected = [], isMulti = false;
-let lastSelectedLetter = '', emailCaptured = false;
+let lastSelectedLetter = '', emailCaptured = (localStorage.getItem('aura_email_captured') === 'true');
 
 window.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('hp_name');
@@ -574,7 +574,9 @@ async function startSession() {
   try {
     const pool = await fetchQuestions();
     if (!pool.length) { alert('Keine Fragen gefunden.'); show('screen-start'); hide('screen-loading'); return; }
-    questionQueue = [...pool]; answers = []; currentIndex = 0; emailCaptured = false;
+    questionQueue = [...pool]; answers = []; currentIndex = 0;
+    // emailCaptured wird nur reset wenn nicht persistent gespeichert (Wiederkehrer behalten "true")
+    if (localStorage.getItem('aura_email_captured') !== 'true') emailCaptured = false;
     hide('screen-loading'); show('screen-quiz'); renderQuestion();
   } catch(e) { hide('screen-loading'); show('screen-start'); alert('Fehler: ' + e.message); }
 }
@@ -678,11 +680,15 @@ async function submitEmail() {
   const email = document.getElementById('overlay-email').value.trim();
   if (!email || !email.includes('@')) { alert('Bitte gib eine gültige Email ein.'); return; }
   emailCaptured = true;
+  // Persistenz: Wiederkehrer kriegen das Overlay nicht mehr
+  localStorage.setItem('aura_email_captured', 'true');
+  localStorage.setItem('aura_email', email);
   if (name) { userName = name; localStorage.setItem('hp_name', name); document.getElementById('header-name').textContent = name; }
   fetch(N8N_EMAIL, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ name, email, source:'hp-quiz', frage: currentIndex }) }).catch(()=>{});
   hide('email-overlay'); renderQuestion();
 }
 
+// "Skip" = nur diese Session überspringen, NICHT persistent — beim nächsten Besuch popt's wieder
 function skipEmail() { emailCaptured = true; hide('email-overlay'); renderQuestion(); }
 function quitSession() { if (answers.length === 0) { restartQuiz(); return; } showResults(); }
 
