@@ -1,6 +1,7 @@
 FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/index.html
 COPY paywall.html /usr/share/nginx/html/paywall.html
+COPY datenschutz.html /usr/share/nginx/html/datenschutz.html
 COPY assets/ /usr/share/nginx/html/assets/
 
 # nginx auf Railway-PORT konfigurieren (Standard 8080 falls nicht gesetzt)
