@@ -13,6 +13,10 @@ TAG_ID_QUIZ_LEAD  = 51  # hp-app:quiz-lead
 TAG_ID_INSTALLED  = 54  # hp-app:installed
 TAG_ID_DOZENT     = 61  # DOZENT_BEWERBUNG
 
+# Slack (für #leads Notification). Wenn SLACK_BOT_TOKEN gesetzt, sendet der Server direkt.
+SLACK_BOT_TOKEN  = os.environ.get("SLACK_BOT_TOKEN", "")
+SLACK_LEADS_CHAN = "C0ANUMM050X"  # #leads
+
 STATIC_DIR = "/usr/share/nginx/html"
 PORT = int(os.environ.get("PORT", "8080"))
 
@@ -89,7 +93,84 @@ class Handler(BaseHTTPRequestHandler):
             return self._handle_quiz(data)
         if self.path == "/api/dozent-submit":
             return self._handle_dozent(data)
+        if self.path == "/api/app-contact":
+            return self._handle_app_contact(data)
         self.send_response(404); self.end_headers()
+
+    def _slack_post(self, text):
+        if not SLACK_BOT_TOKEN:
+            print(f"[slack-skip no token] {text[:80]}")
+            return
+        try:
+            req = urllib.request.Request(
+                "https://slack.com/api/chat.postMessage",
+                data=json.dumps({"channel": SLACK_LEADS_CHAN, "text": text}).encode(),
+                headers={"Authorization": f"Bearer {SLACK_BOT_TOKEN}", "Content-Type": "application/json; charset=utf-8"},
+                method="POST")
+            urllib.request.urlopen(req, timeout=15)
+        except Exception as e:
+            print(f"[slack-fail] {e}")
+
+    def _safe_get_or_create_tag(self, tag_name):
+        try:
+            r = ac_request("GET", f"/api/3/tags?search={tag_name}")
+            for t in r.get("tags", []):
+                if t.get("tag") == tag_name: return t["id"]
+            c = ac_request("POST", "/api/3/tags",
+                {"tag": {"tag": tag_name, "tagType": "contact", "description": "auto-created via /api"}})
+            return c.get("tag", {}).get("id")
+        except Exception:
+            return None
+
+    def _handle_app_contact(self, data):
+        name      = (data.get("name") or "").strip()
+        phone     = (data.get("phone") or "").strip()
+        message   = (data.get("message") or "").strip()
+        source    = (data.get("source") or "app").strip()
+        timestamp = data.get("timestamp") or ""
+        email     = (data.get("email") or "").strip().lower()
+
+        # 1. Slack notify (always — also if AC sync fails)
+        slack_text = (
+            f"🔔 *Neuer App-Lead!*\n"
+            f"*Name:* {name or '—'}\n"
+            f"*WhatsApp:* {phone or '—'}\n"
+            f"*Nachricht:* {message or '—'}\n"
+            f"*Quelle:* {source}\n"
+            f"*Zeit:* {timestamp or 'jetzt'}"
+        )
+        self._slack_post(slack_text)
+
+        # 2. AC contact (skip if no email — but Dennis app might not collect email)
+        contact_id = None
+        if email or name:
+            parts = name.split(" ", 1)
+            firstName = parts[0] if parts else ""
+            lastName  = parts[1] if len(parts) > 1 else ""
+            if not email and phone:
+                # fallback email so AC accepts contact
+                email = f"app-lead-{phone.replace('+','').replace(' ','')}@auraakademie.de"
+            if email:
+                try:
+                    sync = ac_request("POST", "/api/3/contact/sync",
+                        {"contact": {"email": email, "firstName": firstName, "lastName": lastName, "phone": phone}})
+                    contact_id = sync.get("contact", {}).get("id")
+                    if contact_id:
+                        tag_id = self._safe_get_or_create_tag("app-lead")
+                        if tag_id: self._safe_tag(contact_id, tag_id)
+                        self._safe_subscribe(contact_id, LIST_ID_HAUPT)
+                        # Append note with the message
+                        if message:
+                            try:
+                                ac_request("POST", "/api/3/notes", {"note": {
+                                    "note": f"App-Lead Nachricht ({source}):\n{message}",
+                                    "relid": contact_id, "reltype": "Subscriber"
+                                }})
+                            except Exception: pass
+                except Exception as e:
+                    print(f"[ac-fail] {e}")
+
+        self._respond(200, {"status": "ok", "contact_id": contact_id})
 
     def _safe_subscribe(self, contact_id, list_id):
         try:
