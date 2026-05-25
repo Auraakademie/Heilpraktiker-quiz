@@ -627,7 +627,7 @@ form.addEventListener('submit', async (e) => {
   data.submitted_at = new Date().toISOString();
 
   try {
-    const res = await fetch('https://auraakademie.app.n8n.cloud/webhook/aura-dozent-bewerbung', {
+    const res = await fetch('/api/dozent-submit', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
