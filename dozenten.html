@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Werde Dozentin bei der Aura Heilpraktiker Akademie</title>
+<meta name="description" content="Bewirb dich als Dozentin bei der Aura Heilpraktiker Akademie. Fülle den Fragebogen aus – wir melden uns persönlich bei dir.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf7f2;
+  --bg-card: #ffffff;
+  --ink: #3a2e1e;
+  --ink-soft: #5d4e38;
+  --ink-mute: #9a8b73;
+  --gold: #bf9969;
+  --gold-soft: #e9d9bf;
+  --line: #e8e0d1;
+  --error: #b94a3e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 56px 24px 80px; }
+header { text-align: center; margin-bottom: 48px; }
+.brand-tag {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(34px, 5vw, 48px);
+  font-weight: 500;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.sub {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 540px;
+  margin: 0 auto;
+}
+.divider {
+  display: flex; align-items: center; justify-content: center;
+  margin: 32px 0;
+  color: var(--gold);
+  font-size: 14px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--line); max-width: 80px;
+}
+.divider span { padding: 0 16px; }
+
+form {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 40px 36px;
+  box-shadow: 0 10px 40px rgba(58,46,30,0.04);
+}
+fieldset { border: none; margin-bottom: 32px; }
+legend {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  width: 100%;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.section-hint {
+  font-size: 13px;
+  color: var(--ink-mute);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.field { margin-bottom: 20px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 540px) { .field-row { grid-template-columns: 1fr; } }
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.req { color: var(--gold); margin-left: 2px; }
+
+input[type=text], input[type=email], input[type=tel], input[type=date], input[type=number], select, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(191,153,105,0.15);
+}
+textarea { resize: vertical; min-height: 80px; font-family: 'Jost', sans-serif; }
+select { cursor: pointer; }
+
+.check-group { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 4px; }
+.check-group label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--ink); font-weight: 400;
+  margin: 0; cursor: pointer;
+  padding: 6px 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.check-group label:hover { border-color: var(--gold); }
+.check-group input[type=checkbox], .check-group input[type=radio] {
+  accent-color: var(--gold);
+  width: 16px; height: 16px;
+  cursor: pointer;
+}
+.check-group label:has(input:checked) {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+
+.subjects-block { margin-bottom: 16px; }
+.subjects-block .subjects-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.availability-table {
+  display: grid;
+  grid-template-columns: 80px repeat(4, 1fr);
+  gap: 4px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.availability-table .header-cell {
+  font-weight: 600;
+  color: var(--ink-soft);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 4px;
+  text-align: center;
+}
+.availability-table .day-label {
+  font-weight: 500;
+  padding: 10px 4px;
+  display: flex; align-items: center;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+.availability-table .cell {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px;
+  cursor: pointer;
+}
+.availability-table .cell input { accent-color: var(--gold); cursor: pointer; }
+
+.scale {
+  display: flex; gap: 8px; margin-top: 4px;
+}
+.scale label {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.scale label:has(input:checked) {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: white;
+}
+.scale input { display: none; }
+
+.consent {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.consent label {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 14px; color: var(--ink); cursor: pointer;
+  margin: 0;
+}
+.consent input[type=checkbox] {
+  accent-color: var(--gold);
+  width: 18px; height: 18px;
+  margin-top: 2px; flex-shrink: 0;
+  cursor: pointer;
+}
+
+button[type=submit] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 16px 24px;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+button[type=submit]:hover { background: #2a2114; transform: translateY(-1px); }
+button[type=submit]:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+#thanks {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  padding: 56px 36px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(58,46,30,0.06);
+}
+#thanks.show { display: block; }
+#thanks .icon {
+  font-size: 48px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  font-family: 'Cormorant Garamond', serif;
+}
+#thanks h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+#thanks p {
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.error-msg {
+  display: none;
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #fdf0ee;
+  border: 1px solid #f5c8c1;
+  border-radius: 8px;
+  color: var(--error);
+  font-size: 14px;
+}
+.error-msg.show { display: block; }
+
+footer {
+  margin-top: 64px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-mute);
+  line-height: 1.6;
+}
+footer a { color: var(--ink-mute); text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand-tag">Aura Heilpraktiker Akademie</div>
+  <h1>Werde Dozentin bei der Aura Heilpraktiker Akademie</h1>
+  <div class="divider"><span>✦</span></div>
+  <p class="sub">Fülle den Fragebogen aus — wir melden uns persönlich bei dir.</p>
+</header>
+
+<form id="dozent-form" novalidate>
+
+  <!-- 1: Persönliche Daten -->
+  <fieldset>
+    <legend>Persönliche Daten</legend>
+    <div class="field-row">
+      <div class="field">
+        <label>Vorname<span class="req">*</span></label>
+        <input type="text" name="vorname" required>
+      </div>
+      <div class="field">
+        <label>Nachname<span class="req">*</span></label>
+        <input type="text" name="nachname" required>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>E-Mail<span class="req">*</span></label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="field">
+        <label>Telefon / WhatsApp</label>
+        <input type="tel" name="telefon">
+      </div>
+    </div>
+    <div class="field">
+      <label>Geburtsdatum</label>
+      <input type="date" name="geburtsdatum">
+    </div>
+    <div class="field">
+      <label>Straße & Hausnummer</label>
+      <input type="text" name="strasse">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>PLZ</label>
+        <input type="text" name="plz">
+      </div>
+      <div class="field">
+        <label>Stadt</label>
+        <input type="text" name="stadt">
+      </div>
+    </div>
+    <div class="field">
+      <label>Bundesland / Land</label>
+      <select name="bundesland">
+        <option value="">— bitte wählen —</option>
+        <optgroup label="Deutschland">
+          <option>Baden-Württemberg</option><option>Bayern</option><option>Berlin</option>
+          <option>Brandenburg</option><option>Bremen</option><option>Hamburg</option>
+          <option>Hessen</option><option>Mecklenburg-Vorpommern</option><option>Niedersachsen</option>
+          <option>Nordrhein-Westfalen</option><option>Rheinland-Pfalz</option><option>Saarland</option>
+          <option>Sachsen</option><option>Sachsen-Anhalt</option><option>Schleswig-Holstein</option>
+          <option>Thüringen</option>
+        </optgroup>
+        <optgroup label="Österreich">
+          <option value="AT-Burgenland">Burgenland (AT)</option>
+          <option value="AT-Kärnten">Kärnten (AT)</option>
+          <option value="AT-Niederösterreich">Niederösterreich (AT)</option>
+          <option value="AT-Oberösterreich">Oberösterreich (AT)</option>
+          <option value="AT-Salzburg">Salzburg (AT)</option>
+          <option value="AT-Steiermark">Steiermark (AT)</option>
+          <option value="AT-Tirol">Tirol (AT)</option>
+          <option value="AT-Vorarlberg">Vorarlberg (AT)</option>
+          <option value="AT-Wien">Wien (AT)</option>
+        </optgroup>
+        <optgroup label="Schweiz">
+          <option value="CH">Schweiz (Kanton in Anmerkungen)</option>
+        </optgroup>
+      </select>
+    </div>
+  </fieldset>
+
+  <!-- 2: Verfügbarkeit -->
+  <fieldset>
+    <legend>Verfügbarkeit</legend>
+    <p class="section-hint">Wann kannst du grundsätzlich unterrichten? Mehrfachauswahl möglich.</p>
+    <div class="availability-table" id="avail-table">
+      <div class="header-cell"></div>
+      <div class="header-cell">Morgens</div>
+      <div class="header-cell">Mittags</div>
+      <div class="header-cell">Nachmittags</div>
+      <div class="header-cell">Abends</div>
+    </div>
+    <div class="field" style="margin-top:16px;">
+      <label>Nicht verfügbar wann?</label>
+      <textarea name="nicht_verfuegbar" placeholder="z.B. Sonntags / während Ferien / am Wochenende"></textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Stunden pro Woche</label>
+        <input type="number" name="stunden_pro_woche" min="0" max="80">
+      </div>
+      <div class="field">
+        <label>Format-Präferenz</label>
+        <div class="check-group" style="margin-top:6px;">
+          <label><input type="radio" name="format" value="online"> Online/Zoom</label>
+          <label><input type="radio" name="format" value="aufzeichnung"> Aufzeichnung</label>
+          <label><input type="radio" name="format" value="beides"> Beides</label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- 3: Fächer KANN -->
+  <fieldset>
+    <legend>Fächer die ich unterrichten KANN</legend>
+    <p class="section-hint">Wähle alle aus, die du sicher unterrichten kannst.</p>
+    <div class="subjects-block">
+      <div class="subjects-title">Anatomie</div>
+      <div class="check-group" id="kann-anatomie"></div>
+    </div>
+    <div class="subjects-block">
+      <div class="subjects-title">Physiologie</div>
+      <div class="check-group" id="kann-physiologie"></div>
+    </div>
+    <div class="subjects-block">
+      <div class="subjects-title">Pathologie</div>
+      <div class="check-group" id="kann-pathologie"></div>
+    </div>
+  </fieldset>
+
+  <!-- 4: Fächer NICHT -->
+  <fieldset>
+    <legend>Fächer die ich NICHT unterrichten kann</legend>
+    <p class="section-hint">Wo du dich nicht sicher fühlst.</p>
+    <div class="subjects-block">
+      <div class="subjects-title">Anatomie</div>
+      <div class="check-group" id="kannnicht-anatomie"></div>
+    </div>
+    <div class="subjects-block">
+      <div class="subjects-title">Physiologie</div>
+      <div class="check-group" id="kannnicht-physiologie"></div>
+    </div>
+    <div class="subjects-block">
+      <div class="subjects-title">Pathologie</div>
+      <div class="check-group" id="kannnicht-pathologie"></div>
+    </div>
+  </fieldset>
+
+  <!-- 5: Spezialgebiete & Skills -->
+  <fieldset>
+    <legend>Spezialgebiete & Skills</legend>
+    <div class="field">
+      <label>Spezialgebiete / Stärken</label>
+      <textarea name="spezialgebiete" placeholder="z.B. Notfallmedizin, Anamnese-Training, Differentialdiagnose..."></textarea>
+    </div>
+    <div class="field">
+      <label>Zoom-Sicherheit (1 = unsicher, 5 = sehr sicher)</label>
+      <div class="scale">
+        <label><input type="radio" name="zoom_sicherheit" value="1">1</label>
+        <label><input type="radio" name="zoom_sicherheit" value="2">2</label>
+        <label><input type="radio" name="zoom_sicherheit" value="3">3</label>
+        <label><input type="radio" name="zoom_sicherheit" value="4">4</label>
+        <label><input type="radio" name="zoom_sicherheit" value="5">5</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Lehrerfahrung?</label>
+      <div class="check-group">
+        <label><input type="radio" name="lehrerfahrung" value="ja"> Ja</label>
+        <label><input type="radio" name="lehrerfahrung" value="etwas"> Etwas</label>
+        <label><input type="radio" name="lehrerfahrung" value="nein"> Nein</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Technische Ausrüstung</label>
+      <div class="check-group">
+        <label><input type="radio" name="ausruestung" value="vorhanden"> Mikrofon & Kamera vorhanden</label>
+        <label><input type="radio" name="ausruestung" value="nur_laptop"> Nur Laptop/Handy</label>
+        <label><input type="radio" name="ausruestung" value="fehlt"> Fehlt</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Lehrerfahrung beschreiben</label>
+      <textarea name="lehrerfahrung_text" placeholder="Wo, wann, in welchem Format hast du schon unterrichtet?"></textarea>
+    </div>
+  </fieldset>
+
+  <!-- 6: Konditionen -->
+  <fieldset>
+    <legend>Konditionen</legend>
+    <div class="field-row">
+      <div class="field">
+        <label>Wunschhonorar pro Stunde € (netto)</label>
+        <input type="number" name="honorar" min="0" step="1">
+      </div>
+      <div class="field">
+        <label>Abrechnungsform</label>
+        <div class="check-group" style="margin-top:6px;">
+          <label><input type="radio" name="abrechnung" value="freiberuflich"> Freiberuflich</label>
+          <label><input type="radio" name="abrechnung" value="gewerbe"> Gewerbe</label>
+          <label><input type="radio" name="abrechnung" value="unklar"> Noch unklar</label>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Gewünschter Einsatz</label>
+      <div class="check-group">
+        <label><input type="radio" name="einsatz" value="regelmaessig"> Regelmäßig</label>
+        <label><input type="radio" name="einsatz" value="gelegentlich"> Gelegentlich</label>
+        <label><input type="radio" name="einsatz" value="einmalig"> Einmalig / Vertretung</label>
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- 7: Einwilligungen -->
+  <fieldset>
+    <legend>Einwilligungen</legend>
+    <div class="consent">
+      <label>
+        <input type="checkbox" name="no_direct_1on1" required>
+        <span>Ich bestätige, dass ich kein direktes 1:1 mit Schülerinnen vereinbare. Privatstunden laufen ausschließlich über die Aura Akademie. <span class="req">*</span></span>
+      </label>
+    </div>
+    <div class="consent">
+      <label>
+        <input type="checkbox" name="coaching_interest">
+        <span>Ich bin interessiert, über Aura 1:1 Coaching anzubieten. (optional)</span>
+      </label>
+    </div>
+    <div class="consent">
+      <label>
+        <input type="checkbox" name="datenschutz" required>
+        <span>Ich habe die <a href="/datenschutz.html" target="_blank" style="color:var(--gold);">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu. <span class="req">*</span></span>
+      </label>
+    </div>
+  </fieldset>
+
+  <!-- 8: Anmerkungen -->
+  <fieldset>
+    <legend>Weitere Anmerkungen</legend>
+    <div class="field">
+      <textarea name="anmerkungen" placeholder="Was möchtest du uns noch mitteilen?" rows="4"></textarea>
+    </div>
+  </fieldset>
+
+  <button type="submit" id="submit-btn">Fragebogen absenden ✦</button>
+  <div class="error-msg" id="error-msg"></div>
+
+</form>
+
+<div id="thanks">
+  <div class="icon">✦</div>
+  <h2>Vielen Dank!</h2>
+  <p>Wir haben deinen Fragebogen erhalten und melden uns bald persönlich bei dir.<br><br>Liebe Grüße,<br>Dennis &amp; das Team der Aura Akademie ✦</p>
+</div>
+
+<footer>
+  Aura Heilpraktiker Akademie · Aura Global Digital LLC<br>
+  <a href="/datenschutz.html">Datenschutz</a>
+</footer>
+
+</div>
+
+<script>
+const ANATOMIE = ['Bewegungsapparat','Herz & Kreislauf','Atemsystem','Verdauungssystem','Niere & Urogenital','Neurologie/ZNS','Endokrinium','Immunsystem','Sinnesorgane','Hirnnerven'];
+const PHYSIOLOGIE = ['Blut & Hämatologie','Herzphysiologie','Atemphysiologie','Verdauungsphysiologie','Nierenfunktion','Neurophysiologie','Hormonsystem','Immunphysiologie','Stoffwechsel','Reproduktion'];
+const PATHOLOGIE = ['Innere Medizin','Kardiologie','Pneumologie','Gastroenterologie','Nephrologie','Neurologie Erkrankungen','Infektiologie/Hygiene','Pharmakologie','Notfallmedizin','Pädiatrie'];
+
+function renderSubjects(containerId, fieldName, items) {
+  const c = document.getElementById(containerId);
+  items.forEach(item => {
+    const id = `${containerId}-${item.replace(/[^a-z0-9]/gi,'_')}`;
+    c.insertAdjacentHTML('beforeend',
+      `<label><input type="checkbox" name="${fieldName}" value="${item}" id="${id}"> ${item}</label>`);
+  });
+}
+renderSubjects('kann-anatomie','kann_anatomie',ANATOMIE);
+renderSubjects('kann-physiologie','kann_physiologie',PHYSIOLOGIE);
+renderSubjects('kann-pathologie','kann_pathologie',PATHOLOGIE);
+renderSubjects('kannnicht-anatomie','kannnicht_anatomie',ANATOMIE);
+renderSubjects('kannnicht-physiologie','kannnicht_physiologie',PHYSIOLOGIE);
+renderSubjects('kannnicht-pathologie','kannnicht_pathologie',PATHOLOGIE);
+
+const TAGE = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+const TAGESZEITEN = ['morgens','mittags','nachmittags','abends'];
+const at = document.getElementById('avail-table');
+TAGE.forEach(t => {
+  at.insertAdjacentHTML('beforeend', `<div class="day-label">${t}</div>`);
+  TAGESZEITEN.forEach(z => {
+    const id = `avail_${t}_${z}`;
+    at.insertAdjacentHTML('beforeend', `<label class="cell"><input type="checkbox" name="verfuegbarkeit_${t}_${z}" id="${id}"></label>`);
+  });
+});
+
+const form = document.getElementById('dozent-form');
+const submitBtn = document.getElementById('submit-btn');
+const errorMsg = document.getElementById('error-msg');
+const thanks = document.getElementById('thanks');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  errorMsg.classList.remove('show');
+
+  if (!form.checkValidity()) {
+    errorMsg.textContent = 'Bitte fülle alle Pflichtfelder aus.';
+    errorMsg.classList.add('show');
+    form.reportValidity();
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Wird gesendet...';
+
+  const data = {};
+  const fd = new FormData(form);
+  for (const [k,v] of fd.entries()) {
+    if (data[k] !== undefined) {
+      if (!Array.isArray(data[k])) data[k] = [data[k]];
+      data[k].push(v);
+    } else { data[k] = v; }
+  }
+  data.form_name = 'Dozentenbewerbung Onepage';
+  data.submitted_at = new Date().toISOString();
+
+  try {
+    const res = await fetch('https://auraakademie.app.n8n.cloud/webhook/aura-dozent-bewerbung', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Server error: ' + res.status);
+    form.style.display = 'none';
+    thanks.classList.add('show');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Fragebogen absenden ✦';
+    errorMsg.textContent = 'Beim Senden ist etwas schiefgelaufen. Bitte versuche es erneut oder schreib uns an support@auraakademie.de';
+    errorMsg.classList.add('show');
+    console.error(err);
+  }
+});
+</script>
+</body>
+</html>

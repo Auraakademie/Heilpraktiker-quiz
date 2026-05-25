@@ -2,6 +2,7 @@ FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/index.html
 COPY paywall.html /usr/share/nginx/html/paywall.html
 COPY datenschutz.html /usr/share/nginx/html/datenschutz.html
+COPY dozenten.html /usr/share/nginx/html/dozenten.html
 COPY sitemap.xml /usr/share/nginx/html/sitemap.xml
 COPY robots.txt /usr/share/nginx/html/robots.txt
 COPY assets/ /usr/share/nginx/html/assets/
