@@ -229,6 +229,39 @@ class Handler(BaseHTTPRequestHandler):
             self._safe_tag(contact_id, TAG_ID_DOZENT)
             self._safe_subscribe(contact_id, LIST_ID_HAUPT)
 
+            # Slack-Notification an #leads mit den wichtigsten Antworten
+            def _val(key):
+                v = data.get(key)
+                if isinstance(v, list): return ", ".join(str(x) for x in v)
+                return v or "—"
+            kann_anatomie     = _val("kann_anatomie")
+            kann_physiologie  = _val("kann_physiologie")
+            kann_pathologie   = _val("kann_pathologie")
+            kann_summary = []
+            if kann_anatomie    != "—": kann_summary.append(f"Anatomie ({kann_anatomie})")
+            if kann_physiologie != "—": kann_summary.append(f"Physiologie ({kann_physiologie})")
+            if kann_pathologie  != "—": kann_summary.append(f"Pathologie ({kann_pathologie})")
+            kann_text = "\n     • " + "\n     • ".join(kann_summary) if kann_summary else "—"
+
+            slack_msg = (
+                f"🎓 *Neue Dozentinnen-Bewerbung*\n"
+                f"*Name:* {firstName} {lastName}\n"
+                f"*E-Mail:* {email}\n"
+                f"*Telefon:* {phone or '—'}\n"
+                f"*Wohnort:* {_val('plz')} {_val('stadt')}, {_val('bundesland')}\n\n"
+                f"*Verfügbarkeit:* {_val('stunden_pro_woche')} Std/Woche · Format: {_val('format')} · Einsatz: {_val('einsatz')}\n"
+                f"*Lehrerfahrung:* {_val('lehrerfahrung')} · Zoom-Sicherheit: {_val('zoom_sicherheit')}/5 · Ausrüstung: {_val('ausruestung')}\n"
+                f"*Honorar-Wunsch:* {_val('honorar')}€/h netto · Abrechnung: {_val('abrechnung')}\n\n"
+                f"*Fächer kann unterrichten:*{kann_text}\n\n"
+                f"*Spezialgebiete:* {_val('spezialgebiete')}\n"
+                f"*Lehrerfahrung-Text:* {_val('lehrerfahrung_text')}\n"
+                f"*Anmerkungen:* {_val('anmerkungen')}\n\n"
+                f"*1:1-Verzicht bestätigt:* {'✅' if data.get('no_direct_1on1') else '❌'}  |  "
+                f"*Aura-1:1-Coaching Interesse:* {'✅' if data.get('coaching_interest') else '❌'}\n\n"
+                f"👉 In AC ansehen: https://auraakademie.activehosted.com/contacts/{contact_id}"
+            )
+            self._slack_post(slack_msg)
+
             # Append all answers as a contact note (so Dennis sees full form in AC)
             try:
                 summary_lines = []
