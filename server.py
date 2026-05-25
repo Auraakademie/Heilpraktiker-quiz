@@ -6,9 +6,12 @@ from socketserver import ThreadingMixIn
 
 AC_URL = "https://auraakademie.api-us1.com"
 AC_KEY = os.environ.get("AC_API_KEY", "534a79dfddeccd8bc272c3730fb85be43c2e33193814229630e7c2c244767a67fd3bce2e")
-LIST_ID_DOZENT = 17
-TAG_ID_DOZENT = 61
-LIST_ID_HAUPT  = 3
+LIST_ID_HAUPT     = 3   # Hauptkontaktliste — ALLE Leads landen hier für general marketing
+LIST_ID_HP_FUNNEL = 16  # HP-App Funnel — Quiz Leads
+LIST_ID_DOZENT    = 17  # Dozentenbewerbungen
+TAG_ID_QUIZ_LEAD  = 51  # hp-app:quiz-lead
+TAG_ID_INSTALLED  = 54  # hp-app:installed
+TAG_ID_DOZENT     = 61  # DOZENT_BEWERBUNG
 
 STATIC_DIR = "/usr/share/nginx/html"
 PORT = int(os.environ.get("PORT", "8080"))
@@ -76,14 +79,52 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
-        if self.path != "/api/dozent-submit":
-            self.send_response(404); self.end_headers(); return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             data = json.loads(self.rfile.read(length).decode())
         except Exception:
             self._respond(400, {"ok": False, "error": "invalid_json"}); return
 
+        if self.path == "/api/quiz-email":
+            return self._handle_quiz(data)
+        if self.path == "/api/dozent-submit":
+            return self._handle_dozent(data)
+        self.send_response(404); self.end_headers()
+
+    def _safe_subscribe(self, contact_id, list_id):
+        try:
+            ac_request("POST", "/api/3/contactLists",
+                {"contactList": {"list": list_id, "contact": contact_id, "status": 1}})
+        except Exception: pass
+
+    def _safe_tag(self, contact_id, tag_id):
+        try:
+            ac_request("POST", "/api/3/contactTags",
+                {"contactTag": {"contact": contact_id, "tag": tag_id}})
+        except Exception: pass
+
+    def _handle_quiz(self, data):
+        email = (data.get("email") or "").strip().lower()
+        firstName = (data.get("firstName") or data.get("name") or data.get("vorname") or "").strip()
+        if not email:
+            self._respond(400, {"ok": False, "error": "email_required"}); return
+        try:
+            payload = {"contact": {"email": email}}
+            if firstName: payload["contact"]["firstName"] = firstName
+            sync = ac_request("POST", "/api/3/contact/sync", payload)
+            cid = sync.get("contact", {}).get("id")
+            if not cid:
+                self._respond(500, {"ok": False, "error": "sync_failed"}); return
+            self._safe_subscribe(cid, LIST_ID_HP_FUNNEL)  # 16
+            self._safe_subscribe(cid, LIST_ID_HAUPT)     # 3 — general marketing
+            self._safe_tag(cid, TAG_ID_QUIZ_LEAD)        # 51
+            self._respond(200, {"ok": True, "contact_id": cid})
+        except urllib.error.HTTPError as e:
+            self._respond(500, {"ok": False, "error": f"ac_{e.code}"})
+        except Exception as e:
+            self._respond(500, {"ok": False, "error": str(e)[:200]})
+
+    def _handle_dozent(self, data):
         firstName = (data.get("vorname") or "").strip()
         lastName  = (data.get("nachname") or "").strip()
         email     = (data.get("email") or "").strip().lower()
@@ -100,23 +141,9 @@ class Handler(BaseHTTPRequestHandler):
             if not contact_id:
                 self._respond(500, {"ok": False, "error": "contact_sync_failed"}); return
 
-            # Add to Dozentenbewerbungen list
-            try:
-                ac_request("POST", "/api/3/contactLists",
-                    {"contactList": {"list": LIST_ID_DOZENT, "contact": contact_id, "status": 1}})
-            except Exception: pass
-
-            # Tag DOZENT_BEWERBUNG
-            try:
-                ac_request("POST", "/api/3/contactTags",
-                    {"contactTag": {"contact": contact_id, "tag": TAG_ID_DOZENT}})
-            except Exception: pass
-
-            # Also add to Hauptkontaktliste for general marketing
-            try:
-                ac_request("POST", "/api/3/contactLists",
-                    {"contactList": {"list": LIST_ID_HAUPT, "contact": contact_id, "status": 1}})
-            except Exception: pass
+            self._safe_subscribe(contact_id, LIST_ID_DOZENT)
+            self._safe_tag(contact_id, TAG_ID_DOZENT)
+            self._safe_subscribe(contact_id, LIST_ID_HAUPT)
 
             # Append all answers as a contact note (so Dennis sees full form in AC)
             try:
