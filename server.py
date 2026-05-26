@@ -234,14 +234,37 @@ class Handler(BaseHTTPRequestHandler):
                 v = data.get(key)
                 if isinstance(v, list): return ", ".join(str(x) for x in v)
                 return v or "—"
-            kann_anatomie     = _val("kann_anatomie")
-            kann_physiologie  = _val("kann_physiologie")
-            kann_pathologie   = _val("kann_pathologie")
-            kann_summary = []
-            if kann_anatomie    != "—": kann_summary.append(f"Anatomie ({kann_anatomie})")
-            if kann_physiologie != "—": kann_summary.append(f"Physiologie ({kann_physiologie})")
-            if kann_pathologie  != "—": kann_summary.append(f"Pathologie ({kann_pathologie})")
-            kann_text = "\n     • " + "\n     • ".join(kann_summary) if kann_summary else "—"
+            # AURA Lehrplan — 17 Module aus aura_lernplan.json (synchron mit dozenten.html)
+            MODULE_NAMES = {
+                1: "Hämatologie / Immunologie",
+                2: "Kreislauf / Lymphatisches System",
+                3: "Herz",
+                4: "Atemsystem",
+                5: "Verdauungsapparat (inkl. Leber, Galle, Pankreas)",
+                6: "Nieren und harnableitendes System",
+                7: "Gynäkologie / Urologie",
+                8: "Stoffwechsel",
+                9: "Endokrinologie",
+                10: "Bewegungsapparat",
+                11: "Neurologie",
+                12: "Psychologie",
+                13: "Sinnesorgane (Auge, Ohr, Haut)",
+                14: "Hygiene / Injektionen",
+                15: "Berufs- und Gesetzeskunde",
+                16: "Infektionskrankheiten",
+                17: "Notfälle / Schock / Lagerungen",
+            }
+            kann_lines = []
+            for n, name in MODULE_NAMES.items():
+                bereiche = []
+                if data.get(f"modul_{n}_anatomie"):    bereiche.append("Anatomie")
+                if data.get(f"modul_{n}_physiologie"): bereiche.append("Physiologie")
+                if data.get(f"modul_{n}_pathologie"):  bereiche.append("Pathologie")
+                if bereiche:
+                    kann_lines.append(f"     • *{name}*  →  {' · '.join(bereiche)}")
+            kann_text = "\n" + "\n".join(kann_lines) if kann_lines else "  _keine Module ausgewählt_"
+            praxis = _val("praxisgruendung")
+            praxis_text = _val("praxisgruendung_text")
 
             slack_msg = (
                 f"🎓 *Neue Dozentinnen-Bewerbung*\n"
@@ -252,7 +275,8 @@ class Handler(BaseHTTPRequestHandler):
                 f"*Verfügbarkeit:* {_val('stunden_pro_woche')} Std/Woche · Format: {_val('format')} · Einsatz: {_val('einsatz')}\n"
                 f"*Lehrerfahrung:* {_val('lehrerfahrung')} · Zoom-Sicherheit: {_val('zoom_sicherheit')}/5 · Ausrüstung: {_val('ausruestung')}\n"
                 f"*Honorar-Wunsch:* {_val('honorar')}€/h netto · Abrechnung: {_val('abrechnung')}\n\n"
-                f"*Fächer kann unterrichten:*{kann_text}\n\n"
+                f"*Module die sie unterrichten kann:*{kann_text}\n\n"
+                f"*Praxisgründung:* {praxis}" + (f" — {praxis_text}" if praxis_text != '—' else "") + "\n"
                 f"*Spezialgebiete:* {_val('spezialgebiete')}\n"
                 f"*Lehrerfahrung-Text:* {_val('lehrerfahrung_text')}\n"
                 f"*Anmerkungen:* {_val('anmerkungen')}\n\n"

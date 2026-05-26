@@ -157,6 +157,60 @@ select { cursor: pointer; }
   margin-bottom: 10px;
 }
 
+/* Modul-Tabelle (17 Module × Anatomie/Physiologie/Pathologie) */
+.module-table {
+  display: grid;
+  grid-template-columns: 1fr 95px 95px 95px;
+  gap: 0;
+  margin-top: 12px;
+  border: 1px solid rgba(58,46,30,0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+.module-header {
+  display: contents;
+}
+.module-header > div {
+  background: var(--gold);
+  color: #fff;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 12px 12px;
+  text-align: left;
+}
+.module-header > div + div { text-align: center; }
+.module-row { display: contents; }
+.module-row .cell {
+  padding: 10px 12px;
+  border-top: 1px solid rgba(58,46,30,0.08);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.module-row .cell-name { font-weight: 500; color: var(--ink); }
+.module-row .cell-check {
+  justify-content: center;
+}
+.module-row .cell-check input[type=checkbox] {
+  width: 20px; height: 20px;
+  cursor: pointer;
+  accent-color: var(--gold);
+}
+.module-row:nth-child(even) .cell { background: rgba(250,247,242,0.55); }
+.module-row:hover .cell { background: var(--gold-soft); }
+
+@media (max-width: 600px) {
+  .module-table { grid-template-columns: 1fr 70px 70px 70px; font-size: 13px; }
+  .module-header > div { font-size: 11px; padding: 10px 6px; }
+  .module-row .cell { padding: 9px 6px; font-size: 13px; }
+  .module-row .cell-check input[type=checkbox] { width: 18px; height: 18px; }
+}
+
 .availability-table {
   display: grid;
   grid-template-columns: 80px repeat(4, 1fr);
@@ -414,39 +468,35 @@ footer a { color: var(--ink-mute); text-decoration: underline; }
     </div>
   </fieldset>
 
-  <!-- 3: Fächer KANN -->
+  <!-- 3: Fächer KANN — AURA Lehrplan (17 Module × Anatomie/Physiologie/Pathologie) -->
   <fieldset>
-    <legend>Fächer die ich unterrichten KANN</legend>
-    <p class="section-hint">Wähle alle aus, die du sicher unterrichten kannst.</p>
-    <div class="subjects-block">
-      <div class="subjects-title">Anatomie</div>
-      <div class="check-group" id="kann-anatomie"></div>
-    </div>
-    <div class="subjects-block">
-      <div class="subjects-title">Physiologie</div>
-      <div class="check-group" id="kann-physiologie"></div>
-    </div>
-    <div class="subjects-block">
-      <div class="subjects-title">Pathologie</div>
-      <div class="check-group" id="kann-pathologie"></div>
+    <legend>Welche Module kannst du unterrichten?</legend>
+    <p class="section-hint">Hak pro Modul an, in welchen Bereichen du dich sicher fühlst. Du kannst pro Zeile mehrere ankreuzen — oder gar keinen, wenn du das Modul nicht unterrichten möchtest.</p>
+    <div class="module-table" id="module-table">
+      <div class="module-header">
+        <div>Modul</div>
+        <div>Anatomie</div>
+        <div>Physiologie</div>
+        <div>Pathologie</div>
+      </div>
+      <!-- Rows werden per JS gerendert -->
     </div>
   </fieldset>
 
-  <!-- 4: Fächer NICHT -->
+  <!-- 4: Praxisgründung -->
   <fieldset>
-    <legend>Fächer die ich NICHT unterrichten kann</legend>
-    <p class="section-hint">Wo du dich nicht sicher fühlst.</p>
-    <div class="subjects-block">
-      <div class="subjects-title">Anatomie</div>
-      <div class="check-group" id="kannnicht-anatomie"></div>
+    <legend>Praxisgründung</legend>
+    <div class="field">
+      <label>Erfahrung in Praxisgründung?</label>
+      <div class="check-group">
+        <label><input type="radio" name="praxisgruendung" value="ja"> Ja — eigene Praxis gegründet</label>
+        <label><input type="radio" name="praxisgruendung" value="etwas"> Etwas — Erfahrung gesammelt</label>
+        <label><input type="radio" name="praxisgruendung" value="nein"> Nein</label>
+      </div>
     </div>
-    <div class="subjects-block">
-      <div class="subjects-title">Physiologie</div>
-      <div class="check-group" id="kannnicht-physiologie"></div>
-    </div>
-    <div class="subjects-block">
-      <div class="subjects-title">Pathologie</div>
-      <div class="check-group" id="kannnicht-pathologie"></div>
+    <div class="field">
+      <label>Wenn ja: kurz beschreiben (optional)</label>
+      <textarea name="praxisgruendung_text" placeholder="Wann, wo, welche Praxisform (Einzelpraxis, Gemeinschaftspraxis, online...)?"></textarea>
     </div>
   </fieldset>
 
@@ -566,24 +616,39 @@ footer a { color: var(--ink-mute); text-decoration: underline; }
 </div>
 
 <script>
-const ANATOMIE = ['Bewegungsapparat','Herz & Kreislauf','Atemsystem','Verdauungssystem','Niere & Urogenital','Neurologie/ZNS','Endokrinium','Immunsystem','Sinnesorgane','Hirnnerven'];
-const PHYSIOLOGIE = ['Blut & Hämatologie','Herzphysiologie','Atemphysiologie','Verdauungsphysiologie','Nierenfunktion','Neurophysiologie','Hormonsystem','Immunphysiologie','Stoffwechsel','Reproduktion'];
-const PATHOLOGIE = ['Innere Medizin','Kardiologie','Pneumologie','Gastroenterologie','Nephrologie','Neurologie Erkrankungen','Infektiologie/Hygiene','Pharmakologie','Notfallmedizin','Pädiatrie'];
+// AURA Lehrplan — 17 Module (exakt aus Aura Skripte Tool / aura_lernplan.json)
+const MODULE = [
+  { n: 1,  name: 'Hämatologie / Immunologie' },
+  { n: 2,  name: 'Kreislauf / Lymphatisches System' },
+  { n: 3,  name: 'Herz' },
+  { n: 4,  name: 'Atemsystem' },
+  { n: 5,  name: 'Verdauungsapparat (inkl. Leber, Galle, Pankreas)' },
+  { n: 6,  name: 'Nieren und harnableitendes System' },
+  { n: 7,  name: 'Gynäkologie / Urologie' },
+  { n: 8,  name: 'Stoffwechsel' },
+  { n: 9,  name: 'Endokrinologie' },
+  { n: 10, name: 'Bewegungsapparat' },
+  { n: 11, name: 'Neurologie' },
+  { n: 12, name: 'Psychologie' },
+  { n: 13, name: 'Sinnesorgane (Auge, Ohr, Haut)' },
+  { n: 14, name: 'Hygiene / Injektionen' },
+  { n: 15, name: 'Berufs- und Gesetzeskunde' },
+  { n: 16, name: 'Infektionskrankheiten' },
+  { n: 17, name: 'Notfälle / Schock / Lagerungen' },
+];
 
-function renderSubjects(containerId, fieldName, items) {
-  const c = document.getElementById(containerId);
-  items.forEach(item => {
-    const id = `${containerId}-${item.replace(/[^a-z0-9]/gi,'_')}`;
-    c.insertAdjacentHTML('beforeend',
-      `<label><input type="checkbox" name="${fieldName}" value="${item}" id="${id}"> ${item}</label>`);
-  });
-}
-renderSubjects('kann-anatomie','kann_anatomie',ANATOMIE);
-renderSubjects('kann-physiologie','kann_physiologie',PHYSIOLOGIE);
-renderSubjects('kann-pathologie','kann_pathologie',PATHOLOGIE);
-renderSubjects('kannnicht-anatomie','kannnicht_anatomie',ANATOMIE);
-renderSubjects('kannnicht-physiologie','kannnicht_physiologie',PHYSIOLOGIE);
-renderSubjects('kannnicht-pathologie','kannnicht_pathologie',PATHOLOGIE);
+const moduleTable = document.getElementById('module-table');
+MODULE.forEach(m => {
+  const slug = `m${m.n}`;
+  moduleTable.insertAdjacentHTML('beforeend', `
+    <div class="module-row">
+      <div class="cell cell-name">${m.name}</div>
+      <div class="cell cell-check"><input type="checkbox" name="modul_${m.n}_anatomie" value="1" aria-label="Modul ${m.n} ${m.name} Anatomie"></div>
+      <div class="cell cell-check"><input type="checkbox" name="modul_${m.n}_physiologie" value="1" aria-label="Modul ${m.n} ${m.name} Physiologie"></div>
+      <div class="cell cell-check"><input type="checkbox" name="modul_${m.n}_pathologie" value="1" aria-label="Modul ${m.n} ${m.name} Pathologie"></div>
+    </div>
+  `);
+});
 
 const TAGE = ['Mo','Di','Mi','Do','Fr','Sa','So'];
 const TAGESZEITEN = ['morgens','mittags','nachmittags','abends'];
